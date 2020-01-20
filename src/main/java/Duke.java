@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Duke {
 
-    public static ArrayList<String> Tasks = new ArrayList<String>();
+    public static ArrayList<Task> Tasks = new ArrayList<Task>();
 
     public static void main(String[] args) {
         String logo = " ____        _        \n"
@@ -22,7 +22,12 @@ public class Duke {
                 break;
             }else if(input.equalsIgnoreCase("List")){
                 List();
+            } else if(input.length() >= 6 && input.substring(0,4).equalsIgnoreCase(("Done"))){
+                // the minimum length of Done command is with length 6
+                int taskNumber = Integer.parseInt(input.substring(5));
+                Done(taskNumber);
             }else{
+
                 Add(input);
             }
         }
@@ -47,14 +52,21 @@ public class Duke {
         }
     }
 
-    public static void Add(String newTask){
+    public static void Add(String Desc){
+        Task newTask = new Task(Desc);
         Tasks.add(newTask);
-        System.out.print("        added: " + newTask +"\n");
+        System.out.println("        added: " + newTask);
     }
 
+    public static void Done(int number){
+        System.out.println("      Nice! I've marked this task as done:");
+        Task getTask = Tasks.get(number - 1);
+        getTask.markAsDone();
+        System.out.println("      " + getTask);
+    }
 
     public static void Bye(){
-        System.out.println("      Bye. Hope to see you again soon!\n");
+        System.out.println("      Bye. Hope to see you again soon!");
     }
 
 }
