@@ -1,6 +1,10 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Duke {
+
+    public static ArrayList<String> Tasks = new ArrayList<String>();
+
     public static void main(String[] args) {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -16,8 +20,10 @@ public class Duke {
             if(input.equalsIgnoreCase("Bye")){
                 Bye();
                 break;
+            }else if(input.equalsIgnoreCase("List")){
+                List();
             }else{
-                Echo(input);
+                Add(input);
             }
         }
 
@@ -31,6 +37,21 @@ public class Duke {
     public static void Echo(String content){
         System.out.println("      " + content + "\n");
     }
+
+
+    public static void List(){
+        int taskSize = Tasks.size();
+        for(int i = 0; i < taskSize; i++){
+            int count = i + 1;
+            System.out.println("      " + count + ". " + Tasks.get(i).toString());
+        }
+    }
+
+    public static void Add(String newTask){
+        Tasks.add(newTask);
+        System.out.print("        added: " + newTask +"\n");
+    }
+
 
     public static void Bye(){
         System.out.println("      Bye. Hope to see you again soon!\n");
