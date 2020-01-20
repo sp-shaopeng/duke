@@ -90,6 +90,6 @@ public class Duke {
     }
 
     public static void Bye(){
-        System.out.println("      Bye. Hope to see you again soon\n!");
+        System.out.println("      Bye. Hope to see you again soon!\n");
     }
 }
