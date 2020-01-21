@@ -18,44 +18,85 @@ public class Duke {
         Scanner sc = new Scanner(System.in);
 
         while(true){
-            String input = sc.nextLine();
-            if (input.equalsIgnoreCase("Bye")) {
-                Bye();
-                break;
-            }
-            else if(input.equalsIgnoreCase("List")){
-                List();
-            }
-            else if(input.length() >= 6 && input.substring(0,4).equalsIgnoreCase(("Done"))){
-                // the minimum length of Done command is with length 6
-                int taskNumber = Integer.parseInt(input.substring(5));
-                Done(taskNumber);
-            }
-            else{
-                String TaskNature = input.substring(0,input.indexOf(" "));
-                String Remain = input.substring(input.indexOf(" ") + 1);
-                if(TaskNature.equalsIgnoreCase("Todo")){
-                    ToDos newToDo = new ToDos(Remain);
-                    Add(newToDo);
-                }else{
-                    String Description = Remain.substring(0,Remain.indexOf("/"));
-                    String Time = Remain.substring(Remain.indexOf("/") + 1);
-                    // remove "by' or "at"
-                    Time = Time.substring(Time.indexOf(" "));
-                    if(TaskNature.equalsIgnoreCase("deadline")){
-                        Deadlines newDeadLine = new Deadlines(Description,Time);
-                        Add(newDeadLine);
-                    }else if(TaskNature.equalsIgnoreCase("event")){
-                        Events newEvent = new Events(Description,Time);
-                        Add(newEvent);
+            try {
+                String input = sc.nextLine();
+                if (input.equalsIgnoreCase("Bye")) {
+                    Bye();
+                    break;
+                } else if (input.equalsIgnoreCase("List")) {
+                    List();
+                } else if (input.startsWith("Done")) {
+                    try {
+                        int taskNumber = Integer.parseInt(input.substring(5));
+                        Done(taskNumber);
+                    }catch(StringIndexOutOfBoundsException e){
+                        System.out.println(new DukeException(      "OOPS!!! Done format is wrong"));
+                    }catch(NumberFormatException e){
+                        System.out.println(new DukeException(      "OOPS!!! Done format is wrong"));
+                    }
+                } else {
+                    input = input.toLowerCase();
+                    if(input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")){
+
+                        if(input.startsWith("todo")){
+                            AddTodo(input);
+                        }else if(input.startsWith("deadline")){
+                            AddDeadline(input);
+                        }else if(input.startsWith("event")){
+                            AddEvent(input);
+                        }
                     }else{
-                        System.out.println("Wrong Command, Please Re-enter");
+                        throw new DukeException("      ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
                     }
                 }
+            }catch(DukeException e){
+                System.out.println(e);
             }
         }
     }
 
+    public static void AddTodo(String input) throws DukeException{
+        String Remain = input.replace("todo","").trim();
+        if(Remain.length() >= 1){
+            ToDos newToDo = new ToDos(Remain);
+            Add(newToDo);
+        }else{
+            throw new DukeException("      ☹ OOPS!!! The description of a todo cannot be empty.");
+        }
+    }
+
+    public static void AddDeadline(String input) throws DukeException{
+        String Remain = input.replace("deadline","").trim();
+        if(Remain.length() >= 1){
+            try{
+                String[] detail = Remain.split(" /by ");
+                Deadlines newDeadLine = new Deadlines(detail[0], detail[1]);
+                Add(newDeadLine);
+            }catch(Exception e){
+                throw new DukeException("      ☹ OOPS!!! The description of a deadline is wrong.");
+            }
+        }else{
+            throw new DukeException("      ☹ OOPS!!! The description of a deadline cannot be empty.");
+        }
+
+    }
+
+
+    public static void AddEvent(String input) throws DukeException{
+        String Remain = input.replace("event","").trim();
+        if(Remain.length() >= 1){
+            try{
+                String[] detail = Remain.split(" /at ");
+                Events newEvent = new Events(detail[0], detail[1]);
+                Add(newEvent);
+            }catch(Exception e){
+                throw new DukeException("      ☹ OOPS!!! The description of an event is wrong.");
+            }
+        }else{
+            throw new DukeException("      ☹ OOPS!!! The description of an event cannot be empty.");
+        }
+
+    }
 
 
     public static void Greet(){
