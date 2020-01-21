@@ -20,12 +20,13 @@ public class Duke {
         while(true){
             try {
                 String input = sc.nextLine();
-                if (input.equalsIgnoreCase("Bye")) {
+                input = input.toLowerCase();
+                if (input.equalsIgnoreCase("bye")) {
                     Bye();
                     break;
-                } else if (input.equalsIgnoreCase("List")) {
+                } else if (input.equalsIgnoreCase("list")) {
                     List();
-                } else if (input.startsWith("Done")) {
+                } else if (input.startsWith("done")) {
                     try {
                         int taskNumber = Integer.parseInt(input.substring(5));
                         Done(taskNumber);
@@ -34,8 +35,16 @@ public class Duke {
                     }catch(NumberFormatException e){
                         System.out.println(new DukeException(      "OOPS!!! Done format is wrong"));
                     }
+                } else if (input.startsWith("delete")) {
+                    try {
+                        int taskNumber = Integer.parseInt(input.substring(7));
+                        Delete(taskNumber);
+                    }catch(StringIndexOutOfBoundsException e){
+                        System.out.println(new DukeException(      "OOPS!!! Delete format is wrong"));
+                    }catch(NumberFormatException e){
+                        System.out.println(new DukeException(      "OOPS!!! Delete format is wrong"));
+                    }
                 } else {
-                    input = input.toLowerCase();
                     if(input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")){
 
                         if(input.startsWith("todo")){
@@ -118,19 +127,40 @@ public class Duke {
         System.out.print("        " + newTask +"\n");
         int amtOfTask = Tasks.size();
         if(amtOfTask <= 1){
-            System.out.println("      Now you have " + amtOfTask+ " task in list\n");
+            System.out.println("      Now you have " + amtOfTask+ " task in list");
         }else {
-            System.out.println("      Now you have " + amtOfTask+ " tasks in list\n");
+            System.out.println("      Now you have " + amtOfTask+ " tasks in list");
         }
     }
 
-    public static void Done(int number){
-        Task getTask = Tasks.get(number - 1);
-        getTask.markAsDone();
-        System.out.println("      " + getTask);
+    public static void Done(int number) throws DukeException{
+        if(number <= Tasks.size() && number >= 1) {
+            Task getTask = Tasks.get(number - 1);
+            getTask.markAsDone();
+            System.out.println("      " + getTask);
+        }else{
+            throw new DukeException("      ☹ OOPS!!! There is no such tasks");
+        }
+    }
+
+    public static void Delete(int number) throws DukeException{
+        if(number <= Tasks.size() && number >= 1) {
+            Task getTask = Tasks.get(number - 1);
+            Tasks.remove(number - 1);
+            System.out.println("        Noted. I've removed this task:");
+            System.out.println("        " + getTask);
+            int amtOfTask = Tasks.size();
+            if(amtOfTask <= 1){
+                System.out.println("      Now you have " + amtOfTask+ " task in list");
+            }else {
+                System.out.println("      Now you have " + amtOfTask+ " tasks in list");
+            }
+        }else{
+            throw new DukeException("      ☹ OOPS!!! There is no such tasks");
+        }
     }
 
     public static void Bye(){
-        System.out.println("      Bye. Hope to see you again soon!\n");
+        System.out.println("      Bye. Hope to see you again soon!");
     }
 }
