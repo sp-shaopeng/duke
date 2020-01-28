@@ -86,23 +86,23 @@ public class Duke {
             Scanner sc = new Scanner(data);
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-                String[] content = line.split(" ");
+                String[] content = line.split("-");
                 String TaskNature = content[0];
-                if(TaskNature == "T"){
+                if(TaskNature.equals("T")){
                     int isDone = Integer.parseInt(content[1]);
                     ToDos todo = new ToDos(content[2]);
                     if(isDone == 1){
                         todo.isDone = true;
                     }
                     Tasks.add(todo);
-                }else if(TaskNature == "E"){
+                }else if(TaskNature.equals("D")){
                     int isDone = Integer.parseInt(content[1]);
                     Deadlines deadline = new Deadlines(content[2],content[3]);
                     if(isDone == 1) {
                         deadline.isDone = true;
                     }
                     Tasks.add(deadline);
-                }else if(TaskNature == "D"){
+                }else if(TaskNature.equals("E")){
                     int isDone = Integer.parseInt(content[1]);
                     Events event = new Events(content[2],content[3]);
                     if(isDone == 1) {
@@ -110,8 +110,7 @@ public class Duke {
                     }
                     Tasks.add(event);
                 }else{
-                    System.out.println("ERROR, WRONG FORMAT");
-                    exit(0);
+                    break;
                 }
             }
         }catch(java.io.FileNotFoundException e){
@@ -127,8 +126,8 @@ public class Duke {
         try {
             File data = new File(path);
             FileWriter fr = new FileWriter(data, true);
-            String line = TaskNature + " " + isDone + " " + TaskDescription;
-            fr.write(line);
+            String line = TaskNature + "-" + isDone + "-" + TaskDescription;
+            fr.write(line + "\n");
             fr.close();
         }catch(java.io.IOException e){
             System.out.println("UNABLE TO SAVE DATA");
@@ -140,8 +139,8 @@ public class Duke {
        try {
            File data = new File(path);
            FileWriter fr = new FileWriter(data, true);
-           String line = TaskNature + " " + isDone + " " + TaskDescription + " " + Time;
-           fr.write(line);
+           String line = TaskNature + "-" + isDone + "-" + TaskDescription + "-" + Time;
+           fr.write(line + "\n");
            fr.close();
        }catch(java.io.IOException e){
            System.out.println("UNABLE TO SAVE DATA");
@@ -150,38 +149,46 @@ public class Duke {
 
     public static void updateFile(String path){
         try {
+            StringBuilder NewData = new StringBuilder();
             Writer fileWriter = new FileWriter(path, false); //overwrites file
             for(int i = 0; i < Tasks.size(); i++){
                 Task task = Tasks.get(i);
                 if(task instanceof ToDos){
                     String line;
                     if(task.isDone) {
-                        line = "T" + " 1 " + task.description;
+                        line = "T" + "-1-" + task.description;
                     }else{
-                        line = "T" + " 0 " + task.description;
+                        line = "T" + "-0-" + task.description;
                     }
-                    fileWriter.write(line);
+                    NewData.append(line);
+                    NewData.append("\n");
                 }else if(task instanceof Deadlines){
                     String line;
                     if(task.isDone) {
-                        line = "D" + " 1 " + task.description + " " + ((Deadlines) task).deadLine;
+                        line = "D" + "-1-" + task.description + "-" + ((Deadlines) task).deadLine;
                     }else{
-                        line = "D" + " 0 " + task.description + " " + ((Deadlines) task).deadLine;
+                        line = "D" + "-0-" + task.description + "-" + ((Deadlines) task).deadLine;
                     }
-                    fileWriter.write(line);
+                    NewData.append(line);
+                    NewData.append("\n");
                 }else{
                     String line;
                     if(task.isDone) {
-                        line = "E" + " 1 " + task.description + " " + ((Events) task).Duration;
+                        line = "E" + "-1-" + task.description + "-" + ((Events) task).Duration;
                     }else{
-                        line = "E" + " 1 " + task.description + " " + ((Events) task).Duration;
+                        line = "E" + "-0-" + task.description + "-" + ((Events) task).Duration;
                     }
-                    fileWriter.write(line);
+                    NewData.append(line);
+                    NewData.append("\n");
                 }
+
+            }
+            fileWriter.write(NewData.toString());
+            if(fileWriter != null){
                 fileWriter.close();
             }
         }catch(java.io.IOException e){
-            System.out.println(("ERROR" + e.getMessage()));
+            System.out.println(("ERROR " + e.getMessage()));
         }
 
     }
@@ -273,7 +280,7 @@ public class Duke {
         if(number <= Tasks.size() && number >= 1) {
             Task getTask = Tasks.get(number - 1);
             Tasks.remove(number - 1);
-            System.out.println("        Noted. I've removed this task:");
+            System.out.println("      Noted. I've removed this task:");
             System.out.println("        " + getTask);
             int amtOfTask = Tasks.size();
             if(amtOfTask <= 1){
