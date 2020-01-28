@@ -81,7 +81,7 @@ public class Duke {
                 String[] content = line.split(" | ");
                 String TaskNature = content[0];
                 if(TaskNature == "T"){
-                    
+                    String a = "";
                 }else if(TaskNature == "E"){
 
                 }else if(TaskNature == "D"){
