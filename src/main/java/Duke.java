@@ -1,9 +1,16 @@
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.*;
+
+import static java.lang.System.exit;
 
 public class Duke {
 
     public static ArrayList<Task> Tasks = new ArrayList<Task>();
+    public static String path = Paths.get("data.txt").toString();
+
 
     public static void main(String[] args) {
         String logo = " ____        _        \n"
@@ -62,6 +69,58 @@ public class Duke {
                 System.out.println(e);
             }
         }
+    }
+
+
+    public static void ImportData(String path){
+        File data = new File(path);
+        try {
+            Scanner sc = new Scanner(data);
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] content = line.split(" | ");
+                String TaskNature = content[0];
+                if(TaskNature == "T"){
+                    
+                }else if(TaskNature == "E"){
+
+                }else if(TaskNature == "D"){
+
+                }else{
+                    System.out.println("ERROR, WRONG FORMAT");
+                    exit(0);
+                }
+            }
+        }catch(java.io.FileNotFoundException e){
+            System.out.println("FILE NOT FOUND");
+        }
+    }
+
+
+    //THIS METHOD IS FOR TODO
+    public static void WriteData(String TaskNature, String isDone, String TaskDescription){
+        try {
+            File data = new File(path);
+            FileWriter fr = new FileWriter(data, true);
+            String line = TaskNature + " | " + "isDone" + " | " + TaskDescription;
+            fr.write(line);
+            fr.close();
+        }catch(java.io.IOException e){
+            System.out.println("UNABLE TO SAVE DATA");
+        }
+    }
+
+    //THIS METHOD IS FOR DEADLINE AND EVENTS
+    public static void WriteData(String TaskNature, String isDone, String TaskDescription, String Time){
+       try {
+           File data = new File(path);
+           FileWriter fr = new FileWriter(data, true);
+           String line = TaskNature + " | " + "isDone" + " | " + TaskDescription + " | " + Time;
+           fr.write(line);
+           fr.close();
+       }catch(java.io.IOException e){
+           System.out.println("UNABLE TO SAVE DATA");
+       }
     }
 
     public static void AddTodo(String input) throws DukeException{
