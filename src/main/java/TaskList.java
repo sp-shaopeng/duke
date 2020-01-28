@@ -50,7 +50,8 @@ public class TaskList {
                 LocalDate EventDate = LocalDate.parse(splitDateTime[0].trim());
                 Events newEvent = new Events(detail[0], EventDate,splitDateTime[1].trim());
                 Add(newEvent);
-                data.appendToFile("E",0,detail[0],detail[1]);
+
+                data.appendToFile("E",0,detail[0],splitDateTime[0] + "-" + splitDateTime[1]);
             }catch(Exception e){
                 throw new DukeException("      ☹ OOPS!!! Please enter in the format of : description, YYYY-MM-DD and hours");
             }

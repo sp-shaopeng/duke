@@ -6,7 +6,7 @@ public class Ui {
             + "|____/ \\__,_|_|\\_\\___|\n";
 
     public void GreetLogo(){
-        System.out.println("Hello from\n" + logo + "\n");
+        System.out.println("Hello from\n" + this.logo + "\n");
     }
 
     public void Greet(){
