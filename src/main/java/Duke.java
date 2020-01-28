@@ -1,5 +1,11 @@
+import jdk.jfr.Event;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class Duke {
 
@@ -79,13 +85,14 @@ public class Duke {
         if(Remain.length() >= 1){
             try{
                 String[] detail = Remain.split(" /by ");
-                Deadlines newDeadLine = new Deadlines(detail[0], detail[1]);
+                LocalDate deadlineDate = LocalDate.parse(detail[1].trim());
+                Deadlines newDeadLine = new Deadlines(detail[0], deadlineDate);
                 Add(newDeadLine);
             }catch(Exception e){
-                throw new DukeException("      ☹ OOPS!!! The description of a deadline is wrong.");
+                throw new DukeException("      ☹ OOPS!!! Please enter in the format of : description, YYYY-MM-DD");
             }
         }else{
-            throw new DukeException("      ☹ OOPS!!! The description of a deadline cannot be empty.");
+            throw new DukeException("      ☹ OOPS!!! The description of a deadline is wrong");
         }
 
     }
@@ -96,13 +103,15 @@ public class Duke {
         if(Remain.length() >= 1){
             try{
                 String[] detail = Remain.split(" /at ");
-                Events newEvent = new Events(detail[0], detail[1]);
+                String[] splitDateTime = detail[1].trim().split(" ");
+                LocalDate EventDate = LocalDate.parse(splitDateTime[0].trim());
+                Events newEvent = new Events(detail[0], EventDate,splitDateTime[1].trim());
                 Add(newEvent);
             }catch(Exception e){
-                throw new DukeException("      ☹ OOPS!!! The description of an event is wrong.");
+                throw new DukeException("      ☹ OOPS!!! Please enter in the format of : description, YYYY-MM-DD and hours");
             }
         }else{
-            throw new DukeException("      ☹ OOPS!!! The description of an event cannot be empty.");
+            throw new DukeException("      ☹ OOPS!!! The description of an event is wrong.");
         }
 
     }
@@ -147,7 +156,7 @@ public class Duke {
         if(number <= Tasks.size() && number >= 1) {
             Task getTask = Tasks.get(number - 1);
             Tasks.remove(number - 1);
-            System.out.println("        Noted. I've removed this task:");
+            System.out.println("      Noted. I've removed this task:");
             System.out.println("        " + getTask);
             int amtOfTask = Tasks.size();
             if(amtOfTask <= 1){
