@@ -1,10 +1,10 @@
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
-
 import static java.lang.System.exit;
+import java.time.LocalDate;
+
 
 public class Duke {
 
@@ -79,8 +79,6 @@ public class Duke {
 
 
     public static void ImportData(String path){
-
-
         try {
             File data = new File(path);
             Scanner sc = new Scanner(data);
@@ -88,23 +86,33 @@ public class Duke {
                 String line = sc.nextLine();
                 String[] content = line.split("-");
                 String TaskNature = content[0];
+                int isDone = Integer.parseInt(content[1]);
                 if(TaskNature.equals("T")){
-                    int isDone = Integer.parseInt(content[1]);
                     ToDos todo = new ToDos(content[2]);
                     if(isDone == 1){
                         todo.isDone = true;
                     }
                     Tasks.add(todo);
                 }else if(TaskNature.equals("D")){
-                    int isDone = Integer.parseInt(content[1]);
-                    Deadlines deadline = new Deadlines(content[2],content[3]);
+                    String date = content[3] + "-" + content[4] + "-" + content[5];
+                    LocalDate deadlineDate = LocalDate.parse(date.trim());
+                    Deadlines deadline = new Deadlines(content[2],deadlineDate);
                     if(isDone == 1) {
                         deadline.isDone = true;
                     }
                     Tasks.add(deadline);
                 }else if(TaskNature.equals("E")){
-                    int isDone = Integer.parseInt(content[1]);
-                    Events event = new Events(content[2],content[3]);
+                    String date = content[3] + "-" + content[4] + "-" + content[5];
+                    LocalDate EventDate = LocalDate.parse(date.trim());
+                    StringBuilder duration = new StringBuilder();
+                    for(int i = 6; i < content.length; i++) {
+                        if (i == content.length - 1) {
+                            duration.append(content[i]);
+                        } else {
+                            duration.append(content[i] + "-");
+                        }
+                    }
+                    Events event = new Events(content[2],EventDate,duration.toString());
                     if(isDone == 1) {
                         event.isDone = true;
                     }
@@ -116,6 +124,8 @@ public class Duke {
         }catch(java.io.FileNotFoundException e){
             System.out.println("FILE NOT FOUND");
             exit(0);
+        }catch(Exception e){
+            System.out.println("File Corrupted " + e.getMessage());
         }
 
     }
@@ -165,18 +175,18 @@ public class Duke {
                 }else if(task instanceof Deadlines){
                     String line;
                     if(task.isDone) {
-                        line = "D" + "-1-" + task.description + "-" + ((Deadlines) task).deadLine;
+                        line = "D" + "-1-" + task.description + "-" + ((Deadlines) task).deadlineDate.toString();
                     }else{
-                        line = "D" + "-0-" + task.description + "-" + ((Deadlines) task).deadLine;
+                        line = "D" + "-0-" + task.description + "-" + ((Deadlines) task).deadlineDate.toString();
                     }
                     NewData.append(line);
                     NewData.append("\n");
                 }else{
                     String line;
                     if(task.isDone) {
-                        line = "E" + "-1-" + task.description + "-" + ((Events) task).Duration;
+                        line = "E" + "-1-" + task.description + "-" + ((Events) task).EventDate + "-" + ((Events) task).Duration;
                     }else{
-                        line = "E" + "-0-" + task.description + "-" + ((Events) task).Duration;
+                        line = "E" + "-0-" + task.description + "-" + ((Events) task).EventDate + "-" + ((Events) task).Duration;
                     }
                     NewData.append(line);
                     NewData.append("\n");
@@ -209,14 +219,15 @@ public class Duke {
         if(Remain.length() >= 1){
             try{
                 String[] detail = Remain.split(" /by ");
-                Deadlines newDeadLine = new Deadlines(detail[0], detail[1]);
+                LocalDate deadlineDate = LocalDate.parse(detail[1].trim());
+                Deadlines newDeadLine = new Deadlines(detail[0], deadlineDate);
                 Add(newDeadLine);
                 appendToFile("D",0,detail[0],detail[1]);
             }catch(Exception e){
-                throw new DukeException("      ☹ OOPS!!! The description of a deadline is wrong.");
+                throw new DukeException("      ☹ OOPS!!! Please enter in the format of : description, YYYY-MM-DD");
             }
         }else{
-            throw new DukeException("      ☹ OOPS!!! The description of a deadline cannot be empty.");
+            throw new DukeException("      ☹ OOPS!!! The description of a deadline is wrong");
         }
 
     }
@@ -227,14 +238,16 @@ public class Duke {
         if(Remain.length() >= 1){
             try{
                 String[] detail = Remain.split(" /at ");
-                Events newEvent = new Events(detail[0], detail[1]);
+                String[] splitDateTime = detail[1].trim().split(" ");
+                LocalDate EventDate = LocalDate.parse(splitDateTime[0].trim());
+                Events newEvent = new Events(detail[0], EventDate,splitDateTime[1].trim());
                 Add(newEvent);
                 appendToFile("E",0,detail[0],detail[1]);
             }catch(Exception e){
-                throw new DukeException("      ☹ OOPS!!! The description of an event is wrong.");
+                throw new DukeException("      ☹ OOPS!!! Please enter in the format of : description, YYYY-MM-DD and hours");
             }
         }else{
-            throw new DukeException("      ☹ OOPS!!! The description of an event cannot be empty.");
+            throw new DukeException("      ☹ OOPS!!! The description of an event is wrong.");
         }
 
     }
