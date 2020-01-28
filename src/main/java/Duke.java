@@ -9,10 +9,14 @@ import static java.lang.System.exit;
 public class Duke {
 
     public static ArrayList<Task> Tasks = new ArrayList<Task>();
-    public static String path = Paths.get("data.txt").toString();
+    public static String path = "data/duke.txt";
 
 
     public static void main(String[] args) {
+
+        ImportData(path);
+
+
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -23,6 +27,8 @@ public class Duke {
         Greet();
 
         Scanner sc = new Scanner(System.in);
+
+
 
         while(true){
             try {
@@ -73,19 +79,36 @@ public class Duke {
 
 
     public static void ImportData(String path){
-        File data = new File(path);
+
+
         try {
+            File data = new File(path);
             Scanner sc = new Scanner(data);
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-                String[] content = line.split(" | ");
+                String[] content = line.split(" ");
                 String TaskNature = content[0];
                 if(TaskNature == "T"){
-                    String a = "";
+                    int isDone = Integer.parseInt(content[1]);
+                    ToDos todo = new ToDos(content[2]);
+                    if(isDone == 1){
+                        todo.isDone = true;
+                    }
+                    Tasks.add(todo);
                 }else if(TaskNature == "E"){
-
+                    int isDone = Integer.parseInt(content[1]);
+                    Deadlines deadline = new Deadlines(content[2],content[3]);
+                    if(isDone == 1) {
+                        deadline.isDone = true;
+                    }
+                    Tasks.add(deadline);
                 }else if(TaskNature == "D"){
-
+                    int isDone = Integer.parseInt(content[1]);
+                    Events event = new Events(content[2],content[3]);
+                    if(isDone == 1) {
+                        event.isDone = true;
+                    }
+                    Tasks.add(event);
                 }else{
                     System.out.println("ERROR, WRONG FORMAT");
                     exit(0);
@@ -93,16 +116,18 @@ public class Duke {
             }
         }catch(java.io.FileNotFoundException e){
             System.out.println("FILE NOT FOUND");
+            exit(0);
         }
+
     }
 
 
     //THIS METHOD IS FOR TODO
-    public static void WriteData(String TaskNature, String isDone, String TaskDescription){
+    public static void appendToFile(String TaskNature, int isDone, String TaskDescription){
         try {
             File data = new File(path);
             FileWriter fr = new FileWriter(data, true);
-            String line = TaskNature + " | " + "isDone" + " | " + TaskDescription;
+            String line = TaskNature + " " + isDone + " " + TaskDescription;
             fr.write(line);
             fr.close();
         }catch(java.io.IOException e){
@@ -111,11 +136,11 @@ public class Duke {
     }
 
     //THIS METHOD IS FOR DEADLINE AND EVENTS
-    public static void WriteData(String TaskNature, String isDone, String TaskDescription, String Time){
+    public static void appendToFile(String TaskNature, int isDone, String TaskDescription, String Time){
        try {
            File data = new File(path);
            FileWriter fr = new FileWriter(data, true);
-           String line = TaskNature + " | " + "isDone" + " | " + TaskDescription + " | " + Time;
+           String line = TaskNature + " " + isDone + " " + TaskDescription + " " + Time;
            fr.write(line);
            fr.close();
        }catch(java.io.IOException e){
@@ -123,11 +148,50 @@ public class Duke {
        }
     }
 
+    public static void updateFile(String path){
+        try {
+            Writer fileWriter = new FileWriter(path, false); //overwrites file
+            for(int i = 0; i < Tasks.size(); i++){
+                Task task = Tasks.get(i);
+                if(task instanceof ToDos){
+                    String line;
+                    if(task.isDone) {
+                        line = "T" + " 1 " + task.description;
+                    }else{
+                        line = "T" + " 0 " + task.description;
+                    }
+                    fileWriter.write(line);
+                }else if(task instanceof Deadlines){
+                    String line;
+                    if(task.isDone) {
+                        line = "D" + " 1 " + task.description + " " + ((Deadlines) task).deadLine;
+                    }else{
+                        line = "D" + " 0 " + task.description + " " + ((Deadlines) task).deadLine;
+                    }
+                    fileWriter.write(line);
+                }else{
+                    String line;
+                    if(task.isDone) {
+                        line = "E" + " 1 " + task.description + " " + ((Events) task).Duration;
+                    }else{
+                        line = "E" + " 1 " + task.description + " " + ((Events) task).Duration;
+                    }
+                    fileWriter.write(line);
+                }
+                fileWriter.close();
+            }
+        }catch(java.io.IOException e){
+            System.out.println(("ERROR" + e.getMessage()));
+        }
+
+    }
+
     public static void AddTodo(String input) throws DukeException{
         String Remain = input.replace("todo","").trim();
         if(Remain.length() >= 1){
             ToDos newToDo = new ToDos(Remain);
             Add(newToDo);
+            appendToFile("T",0,Remain);
         }else{
             throw new DukeException("      ☹ OOPS!!! The description of a todo cannot be empty.");
         }
@@ -140,6 +204,7 @@ public class Duke {
                 String[] detail = Remain.split(" /by ");
                 Deadlines newDeadLine = new Deadlines(detail[0], detail[1]);
                 Add(newDeadLine);
+                appendToFile("D",0,detail[0],detail[1]);
             }catch(Exception e){
                 throw new DukeException("      ☹ OOPS!!! The description of a deadline is wrong.");
             }
@@ -157,6 +222,7 @@ public class Duke {
                 String[] detail = Remain.split(" /at ");
                 Events newEvent = new Events(detail[0], detail[1]);
                 Add(newEvent);
+                appendToFile("E",0,detail[0],detail[1]);
             }catch(Exception e){
                 throw new DukeException("      ☹ OOPS!!! The description of an event is wrong.");
             }
@@ -200,6 +266,7 @@ public class Duke {
         }else{
             throw new DukeException("      ☹ OOPS!!! There is no such tasks");
         }
+        updateFile(path);
     }
 
     public static void Delete(int number) throws DukeException{
@@ -217,9 +284,11 @@ public class Duke {
         }else{
             throw new DukeException("      ☹ OOPS!!! There is no such tasks");
         }
+        updateFile(path);
     }
 
     public static void Bye(){
         System.out.println("      Bye. Hope to see you again soon!");
+
     }
 }
