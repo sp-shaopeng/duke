@@ -1,11 +1,11 @@
 package duke.task;
 
 public class Task {
-    protected String description;
+    protected String DESCRIPTION;
     protected boolean isDone;
 
-    public Task(String description) {
-        this.description = description;
+    public Task(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
         this.isDone = false;
     }
 
@@ -32,7 +32,7 @@ public class Task {
      * @return the description of the task (e.g: Buy food)
      */
     public String getDescription(){
-        return this.description;
+        return this.DESCRIPTION;
     }
 
     /**
@@ -45,7 +45,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "[" + this.getStatusIcon() + "] " + this.description;
+        return "[" + this.getStatusIcon() + "] " + this.DESCRIPTION;
     }
 
 }

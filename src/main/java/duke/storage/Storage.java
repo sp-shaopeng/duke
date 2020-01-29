@@ -1,31 +1,28 @@
 package duke.storage;
+
 import duke.task.*;
 
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
+
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Storage {
-    private String filePath;
-    public Storage(String filePath){
-        this.filePath = filePath;
+    private String FILE_PATH;
+    public Storage(String FILE_PATH){
+        this.FILE_PATH = FILE_PATH;
     }
 
-
-    /**
-     *Return an Arraylist <Task>, this contains of all the tasks which are saved in the duke.txt
-     * <p>
-     *This method always returns an ArrayList even if the file is Not found or corrupted
-     * @return an Arraylist<Task>
-     */
     public ArrayList<Task> load(){
         ArrayList<Task> Tasks = new ArrayList<>();
         try {
-            File data = new File(this.filePath);
+            File data = new File(this.FILE_PATH);
             Scanner sc = new Scanner(data);
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
@@ -75,20 +72,14 @@ public class Storage {
         return Tasks;
     }
 
-    /**
-     * This method will throw an exception to denote that when IOException occurs
-     * @param TaskNature An alphabet "T", "D" or "E" which respectively represent TODO DEADLINE and EVENT
-     * @param isDone An integer 1: represents the task has been done
-     *                          0: represents the task has not been done
-     * @param TaskDescription A string which describe the task
-     */
+
 
 
     //THIS METHOD IS FOR TODO
     public void appendToFile(String TaskNature, int isDone, String TaskDescription){
         try {
-//            File data = new File(this.filePath);
-            FileWriter fr = new FileWriter(this.filePath, true);
+//            File data = new File(this.FILE_PATH);
+            FileWriter fr = new FileWriter(this.FILE_PATH, true);
             String line = TaskNature + "-" + isDone + "-" + TaskDescription;
             fr.write(line + "\n");
             fr.close();
@@ -97,21 +88,11 @@ public class Storage {
         }
     }
 
-
-    /**
-     * Making use of polymorphism, this method has one more argument: "TIME". It is used to append to database
-     * when there is new Deadline or Event being created
-     * This method will throw an exception to denote that when IOException occurs
-     * @param TaskNature An alphabet "T", "D" or "E" which respectively represent TODO DEADLINE and EVENT
-     * @param isDone An integer 1: represents the task has been done
-     *                          0: represents the task has not been done
-     * @param TaskDescription A string which describe the task
-     */
     //THIS METHOD IS FOR DEADLINE AND EVENTS
     public void appendToFile(String TaskNature, int isDone, String TaskDescription, String Time){
         try {
-//            File data = new File(this.filePath);
-            FileWriter fr = new FileWriter(this.filePath, true);
+//            File data = new File(this.FILE_PATH);
+            FileWriter fr = new FileWriter(this.FILE_PATH, true);
             String line = TaskNature + "-" + isDone + "-" + TaskDescription + "-" + Time;
             fr.write(line + "\n");
             fr.close();
@@ -120,17 +101,11 @@ public class Storage {
         }
     }
 
-
-    /**
-     *This method allows the txt file to have the latest data set after there is an operation
-      * @param Tasks Overwrite the whole txt file with the updated version of Tasks
-     */
-
     public void updateFile(ArrayList <Task> Tasks){
 
         try {
             StringBuilder NewData = new StringBuilder();
-            Writer fileWriter = new FileWriter(this.filePath, false); //overwrites file
+            Writer fileWriter = new FileWriter(this.FILE_PATH, false); //overwrites file
             for(int i = 0; i < Tasks.size(); i++){
                 Task task = Tasks.get(i);
                 if(task instanceof ToDos){

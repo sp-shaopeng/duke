@@ -5,11 +5,11 @@ import java.time.format.DateTimeFormatter;
 
 public class Events extends Task {
 
-    protected String Duration;
+    protected String DURATION;
     protected LocalDate EventDate;
-    public Events(String description,LocalDate EventDate, String Duration) {
+    public Events(String description,LocalDate EventDate, String DURATION) {
         super(description);
-        this.Duration = Duration;
+        this.DURATION = DURATION;
         this.EventDate = EventDate;
     }
     /**
@@ -23,12 +23,12 @@ public class Events extends Task {
      * @return the duration e.g(2-9pm)
      */
     public String getDuration(){
-        return this.Duration;
+        return this.DURATION;
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (at: " + EventDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) +" " + this.Duration + ")";
+        return "[E]" + super.toString() + " (at: " + EventDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")) +" " + this.DURATION + ")";
 
     }
 }
