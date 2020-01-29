@@ -5,12 +5,20 @@ import java.time.format.DateTimeFormatter;
 
 public class Events extends Task {
 
-    public String Duration;
-    public LocalDate EventDate;
+    protected String Duration;
+    protected LocalDate EventDate;
     public Events(String description,LocalDate EventDate, String Duration) {
         super(description);
         this.Duration = Duration;
         this.EventDate = EventDate;
+    }
+
+    public LocalDate getEventDate(){
+        return this.EventDate;
+    }
+
+    public String getDuration(){
+        return this.Duration;
     }
 
     @Override

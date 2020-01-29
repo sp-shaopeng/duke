@@ -31,7 +31,7 @@ public class Storage {
                 if(TaskNature.equals("T")){
                     ToDos todo = new ToDos(content[2]);
                     if(isDone == 1){
-                        todo.isDone = true;
+                        todo.markAsDone();
                     }
                     Tasks.add(todo);
                 }else if(TaskNature.equals("D")){
@@ -39,7 +39,7 @@ public class Storage {
                     LocalDate deadlineDate = LocalDate.parse(date.trim());
                     Deadlines deadline = new Deadlines(content[2],deadlineDate);
                     if(isDone == 1) {
-                        deadline.isDone = true;
+                        deadline.markAsDone();
                     }
                     Tasks.add(deadline);
                 }else if(TaskNature.equals("E")){
@@ -55,7 +55,7 @@ public class Storage {
                     }
                     Events event = new Events(content[2],EventDate,duration.toString());
                     if(isDone == 1) {
-                        event.isDone = true;
+                        event.markAsDone();
                     }
                     Tasks.add(event);
                 }else{
@@ -110,28 +110,28 @@ public class Storage {
                 Task task = Tasks.get(i);
                 if(task instanceof ToDos){
                     String line;
-                    if(task.isDone) {
-                        line = "T" + "-1-" + task.description;
+                    if(task.getStatus()) {
+                        line = "T" + "-1-" + task.getDescription();
                     }else{
-                        line = "T" + "-0-" + task.description;
+                        line = "T" + "-0-" + task.getDescription();
                     }
                     NewData.append(line);
                     NewData.append("\n");
                 }else if(task instanceof Deadlines){
                     String line;
-                    if(task.isDone) {
-                        line = "D" + "-1-" + task.description + "-" + ((Deadlines) task).deadlineDate.toString();
+                    if(task.getStatus()) {
+                        line = "D" + "-1-" + task.getDescription() + "-" + ((Deadlines) task).getDeadlineDate().toString();
                     }else{
-                        line = "D" + "-0-" + task.description + "-" + ((Deadlines) task).deadlineDate.toString();
+                        line = "D" + "-0-" + task.getDescription() + "-" + ((Deadlines) task).getDeadlineDate().toString();
                     }
                     NewData.append(line);
                     NewData.append("\n");
                 }else{
                     String line;
-                    if(task.isDone) {
-                        line = "E" + "-1-" + task.description + "-" + ((Events) task).EventDate + "-" + ((Events) task).Duration;
+                    if(task.getStatus()) {
+                        line = "E" + "-1-" + task.getDescription() + "-" + ((Events) task).getEventDate() + "-" + ((Events) task).getDuration();
                     }else{
-                        line = "E" + "-0-" + task.description + "-" + ((Events) task).EventDate + "-" + ((Events) task).Duration;
+                        line = "E" + "-0-" + task.getDescription() + "-" + ((Events) task).getEventDate() + "-" + ((Events) task).getDuration();
                     }
                     NewData.append(line);
                     NewData.append("\n");
