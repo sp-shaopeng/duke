@@ -1,4 +1,5 @@
 package duke;
+
 import duke.storage.*;
 import duke.ui.*;
 import duke.task.*;
@@ -16,6 +17,7 @@ public class Duke {
 
     public Duke(String filePath) {
         ui = new Ui();
+        this.filePath = filePath;
         storage = new Storage(filePath);
         try {
             tasks = new TaskList(storage.load());
@@ -77,7 +79,6 @@ public class Duke {
     }
 
     public static void main(String[] args) {
-        new Duke("data/duke.txt").run();
+        new Duke("C:\\Users\\Shaopeng\\Desktop\\duke\\data\\duke.txt").run();
     }
-
 }

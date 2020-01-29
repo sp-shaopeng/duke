@@ -64,7 +64,6 @@ public class Storage {
             }
         }catch(java.io.FileNotFoundException e){
             System.out.println("FILE NOT FOUND");
-            exit(0);
         }catch(Exception e){
             System.out.println("File Corrupted " + e.getMessage());
         }
@@ -78,8 +77,8 @@ public class Storage {
     //THIS METHOD IS FOR TODO
     public void appendToFile(String TaskNature, int isDone, String TaskDescription){
         try {
-            File data = new File(this.filePath);
-            FileWriter fr = new FileWriter(data, true);
+//            File data = new File(this.filePath);
+            FileWriter fr = new FileWriter(this.filePath, true);
             String line = TaskNature + "-" + isDone + "-" + TaskDescription;
             fr.write(line + "\n");
             fr.close();
@@ -91,8 +90,8 @@ public class Storage {
     //THIS METHOD IS FOR DEADLINE AND EVENTS
     public void appendToFile(String TaskNature, int isDone, String TaskDescription, String Time){
         try {
-            File data = new File(this.filePath);
-            FileWriter fr = new FileWriter(data, true);
+//            File data = new File(this.filePath);
+            FileWriter fr = new FileWriter(this.filePath, true);
             String line = TaskNature + "-" + isDone + "-" + TaskDescription + "-" + Time;
             fr.write(line + "\n");
             fr.close();
