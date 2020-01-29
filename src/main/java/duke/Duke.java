@@ -58,6 +58,10 @@ public class Duke {
                     }catch(NumberFormatException e){
                         System.out.println(new DukeException(      "OOPS!!! Delete format is wrong"));
                     }
+                } else if (input.startsWith("find")){
+                    String KeyWord = input.substring(5).trim();
+                    FindTask findTask = new FindTask(KeyWord, tasks.getTasks());
+                    findTask.List();
                 } else {
                     if(input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")){
 

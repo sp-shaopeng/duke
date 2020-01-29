@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import duke.storage.*;
 import duke.exception.*;
 public class TaskList {
-    public ArrayList<Task> Tasks;
+    protected ArrayList<Task> Tasks;
 
     public TaskList(ArrayList<Task> Tasks){
         this.Tasks = Tasks;
     }
     public TaskList(){
         Tasks = new ArrayList<>();
+    }
+
+    public ArrayList <Task> getTasks(){
+        return this.Tasks;
     }
 
     public void AddTodo(String input, Storage data) throws DukeException {
@@ -66,7 +70,6 @@ public class TaskList {
 
 
 
-
     public void List(){
         System.out.println("      Here are the tasks in your list:");
         int taskSize = this.Tasks.size();
@@ -98,6 +101,8 @@ public class TaskList {
         }
         data.updateFile(this.Tasks);
     }
+
+
 
     public void Delete(int number, Storage data) throws DukeException {
         if(number <= this.Tasks.size() && number >= 1) {
