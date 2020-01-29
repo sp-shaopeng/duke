@@ -10,10 +10,18 @@ public class TaskList {
     public TaskList(ArrayList<Task> Tasks){
         this.Tasks = Tasks;
     }
+
     public TaskList(){
         Tasks = new ArrayList<>();
     }
 
+    /**
+     * This method adds a new ToDo into the ArrayList<Tasks>
+     * It will throw DukeException if the formation of input is invalid
+     * @param input task description
+     * @param data the Storage which will make relevant changes to the txt file
+     * @throws DukeException to handle wrong input format
+     */
     public void AddTodo(String input, Storage data) throws DukeException {
         String Remain = input.replace("todo","").trim();
         if(Remain.length() >= 1){
@@ -25,6 +33,14 @@ public class TaskList {
         }
     }
 
+
+    /**
+     * This method adds a new ToDo into the ArrayList<Tasks>
+     * It will throw DukeException if the formation of input is invalid
+     * @param input task description
+     * @param data the Storage which will make relevant changes to the txt file
+     * @throws DukeException to handle wrong input format
+     */
     public void AddDeadline(String input, Storage data) throws DukeException {
         String Remain = input.replace("deadline","").trim();
         if(Remain.length() >= 1){
@@ -43,6 +59,13 @@ public class TaskList {
 
     }
 
+    /**
+     * This method adds a new ToDo into the ArrayList<Tasks>
+     * It will throw DukeException if the formation of input is invalid
+     * @param input task description
+     * @param data the Storage which will make relevant changes to the txt file
+     * @throws DukeException to handle wrong input format
+     */
 
     public void AddEvent(String input, Storage data) throws DukeException {
         String Remain = input.replace("event","").trim();
@@ -65,7 +88,9 @@ public class TaskList {
     }
 
 
-
+    /**
+     * This method will print all the task in the ArrayList
+     */
 
     public void List(){
         System.out.println("      Here are the tasks in your list:");
@@ -76,6 +101,10 @@ public class TaskList {
         }
     }
 
+    /**
+     * Thus method will add the task into ArrayList
+     * @param newTask the task which is going to be added into Arraylist
+     */
     public void Add(Task newTask){
         System.out.println("      Got it. I've added this task: ");
         this.Tasks.add(newTask);
@@ -88,6 +117,12 @@ public class TaskList {
         }
     }
 
+    /**
+     * The method is use to update the task to be done
+     * @param number an integer stating the position of that task in the ArrayList
+     * @param data the Storage which will make relevant changes to the txt file
+     * @throws DukeException use to handle invalid number input(e.g negative number or non-existing task number
+     */
     public void Done(int number, Storage data) throws DukeException {
         if(number <= this.Tasks.size() && number >= 1) {
             Task getTask = this.Tasks.get(number - 1);
@@ -98,6 +133,13 @@ public class TaskList {
         }
         data.updateFile(this.Tasks);
     }
+
+    /**
+     * The method is use to delete a task from the Array list
+     * @param number an integer stating the position of that task in the ArrayList
+     * @param data the Storage which will make relevant changes to the txt file
+     * @throws DukeException use to handle invalid number input(e.g negative number or non-existing task number
+     */
 
     public void Delete(int number, Storage data) throws DukeException {
         if(number <= this.Tasks.size() && number >= 1) {

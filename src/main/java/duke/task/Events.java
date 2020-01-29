@@ -12,11 +12,16 @@ public class Events extends Task {
         this.Duration = Duration;
         this.EventDate = EventDate;
     }
-
+    /**
+     * @return (LocalDate) EventDate
+     */
     public LocalDate getEventDate(){
         return this.EventDate;
     }
 
+    /**
+     * @return the duration e.g(2-9pm)
+     */
     public String getDuration(){
         return this.Duration;
     }

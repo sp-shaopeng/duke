@@ -27,6 +27,11 @@ public class Duke {
         }
     }
 
+    /**
+     * This method will be running throughout the entire session
+     * It will listen to the incoming users's command and process the comment accordingly
+     */
+
     public void run() {
         this.ui.GreetLogo();
         this.ui.Greet();
