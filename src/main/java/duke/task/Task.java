@@ -1,6 +1,8 @@
+package duke.task;
+
 public class Task {
-    protected String description;
-    protected boolean isDone;
+    public String description;
+    public boolean isDone;
 
     public Task(String description) {
         this.description = description;
@@ -15,6 +17,8 @@ public class Task {
     public void markAsDone(){
         this.isDone = true;
     }
+
+
 
     @Override
     public String toString() {

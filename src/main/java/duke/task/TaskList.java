@@ -1,6 +1,9 @@
+package duke.task;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+import duke.storage.*;
+import duke.exception.*;
 public class TaskList {
     public ArrayList<Task> Tasks;
 
@@ -11,7 +14,7 @@ public class TaskList {
         Tasks = new ArrayList<>();
     }
 
-    public void AddTodo(String input, Storage data) throws DukeException{
+    public void AddTodo(String input, Storage data) throws DukeException {
         String Remain = input.replace("todo","").trim();
         if(Remain.length() >= 1){
             ToDos newToDo = new ToDos(Remain);
@@ -22,7 +25,7 @@ public class TaskList {
         }
     }
 
-    public void AddDeadline(String input,Storage data) throws DukeException{
+    public void AddDeadline(String input, Storage data) throws DukeException {
         String Remain = input.replace("deadline","").trim();
         if(Remain.length() >= 1){
             try{
@@ -41,7 +44,7 @@ public class TaskList {
     }
 
 
-    public void AddEvent(String input, Storage data) throws DukeException{
+    public void AddEvent(String input, Storage data) throws DukeException {
         String Remain = input.replace("event","").trim();
         if(Remain.length() >= 1){
             try{
@@ -85,7 +88,7 @@ public class TaskList {
         }
     }
 
-    public void Done(int number,Storage data) throws DukeException{
+    public void Done(int number, Storage data) throws DukeException {
         if(number <= this.Tasks.size() && number >= 1) {
             Task getTask = this.Tasks.get(number - 1);
             getTask.markAsDone();
@@ -96,7 +99,7 @@ public class TaskList {
         data.updateFile(this.Tasks);
     }
 
-    public void Delete(int number, Storage data) throws DukeException{
+    public void Delete(int number, Storage data) throws DukeException {
         if(number <= this.Tasks.size() && number >= 1) {
             Task getTask = this.Tasks.get(number - 1);
             this.Tasks.remove(number - 1);

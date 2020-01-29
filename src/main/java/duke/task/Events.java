@@ -1,10 +1,12 @@
+package duke.task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Events extends Task {
 
-    protected String Duration;
-    protected LocalDate EventDate;
+    public String Duration;
+    public LocalDate EventDate;
     public Events(String description,LocalDate EventDate, String Duration) {
         super(description);
         this.Duration = Duration;
