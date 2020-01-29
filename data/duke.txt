@@ -1,4 +1,4 @@
-D-1-slap-2019-02-12
-T-0-dsadsads
-E-1-sleep-2020-11-23-3-9pm
-D-0-slap kkkk-2019-12-31
+T-1-buy food
+T-1-cook food
+D-0-get food-2019-04-21
+E-0-return book-2019-03-23-4-9pm

@@ -9,15 +9,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-import static java.lang.System.exit;
-
 public class Storage {
     private String filePath;
     public Storage(String filePath){
         this.filePath = filePath;
     }
 
+
+    /**
+     *Return an Arraylist <Task>, this contains of all the tasks which are saved in the duke.txt
+     * <p>
+     *This method always returns an ArrayList even if the file is Not found or corrupted
+     * @return an Arraylist<Task>
+     */
     public ArrayList<Task> load(){
         ArrayList<Task> Tasks = new ArrayList<>();
         try {
@@ -71,7 +75,13 @@ public class Storage {
         return Tasks;
     }
 
-
+    /**
+     * This method will throw an exception to denote that when IOException occurs
+     * @param TaskNature An alphabet "T", "D" or "E" which respectively represent TODO DEADLINE and EVENT
+     * @param isDone An integer 1: represents the task has been done
+     *                          0: represents the task has not been done
+     * @param TaskDescription A string which describe the task
+     */
 
 
     //THIS METHOD IS FOR TODO
@@ -87,6 +97,16 @@ public class Storage {
         }
     }
 
+
+    /**
+     * Making use of polymorphism, this method has one more argument: "TIME". It is used to append to database
+     * when there is new Deadline or Event being created
+     * This method will throw an exception to denote that when IOException occurs
+     * @param TaskNature An alphabet "T", "D" or "E" which respectively represent TODO DEADLINE and EVENT
+     * @param isDone An integer 1: represents the task has been done
+     *                          0: represents the task has not been done
+     * @param TaskDescription A string which describe the task
+     */
     //THIS METHOD IS FOR DEADLINE AND EVENTS
     public void appendToFile(String TaskNature, int isDone, String TaskDescription, String Time){
         try {
@@ -99,6 +119,12 @@ public class Storage {
             System.out.println("UNABLE TO SAVE DATA");
         }
     }
+
+
+    /**
+     *This method allows the txt file to have the latest data set after there is an operation
+      * @param Tasks Overwrite the whole txt file with the updated version of Tasks
+     */
 
     public void updateFile(ArrayList <Task> Tasks){
 
