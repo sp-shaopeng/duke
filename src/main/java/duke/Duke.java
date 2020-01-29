@@ -1,49 +1,51 @@
 package duke;
 
 import duke.storage.*;
-import duke.ui.*;
+
+import duke.ui.Ui;
+
 import duke.task.*;
-import duke.exception.*;
+
+import duke.exception.DukeException;
+
 import java.util.Scanner;
-
-
 
 public class Duke {
 
-    public String filePath;
-    private Storage storage;
-    private TaskList tasks;
-    private Ui ui;
+    public String FILE_PATH;
+    private Storage STORAGE;
+    private TaskList TASK_LIST;
+    private Ui UI;
 
-    public Duke(String filePath) {
-        ui = new Ui();
-        this.filePath = filePath;
-        storage = new Storage(filePath);
+    public Duke(String FILE_PATH) {
+        UI = new Ui();
+        this.FILE_PATH = FILE_PATH;
+        this.STORAGE = new Storage(FILE_PATH);
         try {
-            tasks = new TaskList(storage.load());
+            TASK_LIST = new TaskList(STORAGE.load());
         } catch (Exception e) {
-            ui.showLoadingError();
-            tasks = new TaskList();
+            UI.showLoadingError();
+            TASK_LIST = new TaskList();
         }
     }
 
     public void run() {
-        this.ui.GreetLogo();
-        this.ui.Greet();
+        this.UI.GreetLogo();
+        this.UI.Greet();
         Scanner sc = new Scanner(System.in);
         while(true){
             try {
                 String input = sc.nextLine();
                 input = input.toLowerCase();
                 if (input.equalsIgnoreCase("bye")) {
-                    this.ui.Bye();
+                    this.UI.Bye();
                     break;
                 } else if (input.equalsIgnoreCase("list")) {
-                    this.tasks.List();
+                    this.TASK_LIST.List();
                 } else if (input.startsWith("done")) {
                     try {
                         int taskNumber = Integer.parseInt(input.substring(5));
-                        this.tasks.Done(taskNumber, this.storage);
+                        this.TASK_LIST.Done(taskNumber, this.STORAGE);
                     }catch(StringIndexOutOfBoundsException e){
                         System.out.println(new DukeException(      "OOPS!!! Done format is wrong"));
                     }catch(NumberFormatException e){
@@ -52,7 +54,7 @@ public class Duke {
                 } else if (input.startsWith("delete")) {
                     try {
                         int taskNumber = Integer.parseInt(input.substring(7));
-                        this.tasks.Delete(taskNumber, this.storage);
+                        this.TASK_LIST.Delete(taskNumber, this.STORAGE);
                     }catch(StringIndexOutOfBoundsException e){
                         System.out.println(new DukeException(      "OOPS!!! Delete format is wrong"));
                     }catch(NumberFormatException e){
@@ -62,11 +64,11 @@ public class Duke {
                     if(input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")){
 
                         if(input.startsWith("todo")){
-                            this.tasks.AddTodo(input,this.storage);
+                            this.TASK_LIST.AddTodo(input,this.STORAGE);
                         }else if(input.startsWith("deadline")){
-                            this.tasks.AddDeadline(input,this.storage);
+                            this.TASK_LIST.AddDeadline(input,this.STORAGE);
                         }else if(input.startsWith("event")){
-                            this.tasks.AddEvent(input,this.storage);
+                            this.TASK_LIST.AddEvent(input,this.STORAGE);
                         }
                     }else{
                         throw new DukeException("      ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");

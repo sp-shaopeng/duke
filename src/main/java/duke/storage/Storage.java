@@ -1,27 +1,28 @@
 package duke.storage;
+
 import duke.task.*;
 
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
+
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
-import static java.lang.System.exit;
-
 public class Storage {
-    private String filePath;
-    public Storage(String filePath){
-        this.filePath = filePath;
+    private String FILE_PATH;
+    public Storage(String FILE_PATH){
+        this.FILE_PATH = FILE_PATH;
     }
 
     public ArrayList<Task> load(){
         ArrayList<Task> Tasks = new ArrayList<>();
         try {
-            File data = new File(this.filePath);
+            File data = new File(this.FILE_PATH);
             Scanner sc = new Scanner(data);
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
@@ -77,8 +78,8 @@ public class Storage {
     //THIS METHOD IS FOR TODO
     public void appendToFile(String TaskNature, int isDone, String TaskDescription){
         try {
-//            File data = new File(this.filePath);
-            FileWriter fr = new FileWriter(this.filePath, true);
+//            File data = new File(this.FILE_PATH);
+            FileWriter fr = new FileWriter(this.FILE_PATH, true);
             String line = TaskNature + "-" + isDone + "-" + TaskDescription;
             fr.write(line + "\n");
             fr.close();
@@ -90,8 +91,8 @@ public class Storage {
     //THIS METHOD IS FOR DEADLINE AND EVENTS
     public void appendToFile(String TaskNature, int isDone, String TaskDescription, String Time){
         try {
-//            File data = new File(this.filePath);
-            FileWriter fr = new FileWriter(this.filePath, true);
+//            File data = new File(this.FILE_PATH);
+            FileWriter fr = new FileWriter(this.FILE_PATH, true);
             String line = TaskNature + "-" + isDone + "-" + TaskDescription + "-" + Time;
             fr.write(line + "\n");
             fr.close();
@@ -104,7 +105,7 @@ public class Storage {
 
         try {
             StringBuilder NewData = new StringBuilder();
-            Writer fileWriter = new FileWriter(this.filePath, false); //overwrites file
+            Writer fileWriter = new FileWriter(this.FILE_PATH, false); //overwrites file
             for(int i = 0; i < Tasks.size(); i++){
                 Task task = Tasks.get(i);
                 if(task instanceof ToDos){
