@@ -17,29 +17,29 @@ public class Task {
     /**
      * Mark the task to be done
      */
-    public void markAsDone(){
+    public void markAsDone() {
         this.isDone = true;
     }
 
     /**
      * Mark the task to be undone
      */
-    public void markAsNotDone(){
+    public void markAsNotDone() {
         this.isDone = false;
     }
 
     /**
      * @return the description of the task (e.g: Buy food)
      */
-    public String getDescription(){
+    public String getDescription() {
         return this.DESCRIPTION;
     }
 
     /**
      * @return a boolean: true: the task is done
-     *                    false: the task is not done
+     * false: the task is not done
      */
-    public boolean getStatus(){
+    public boolean getStatus() {
         return this.isDone;
     }
 

@@ -1,11 +1,12 @@
 package duke;
 
-import duke.storage.*;
-import duke.ui.*;
-import duke.task.*;
-import duke.exception.*;
-import java.util.Scanner;
+import duke.exception.DukeException;
+import duke.storage.Storage;
+import duke.task.FindTask;
+import duke.task.TaskList;
+import duke.ui.Ui;
 
+import java.util.Scanner;
 
 
 public class Duke {
@@ -27,6 +28,10 @@ public class Duke {
         }
     }
 
+    public static void main(String[] args) {
+        new Duke("C:\\Users\\Shaopeng\\Desktop\\duke\\data\\duke.txt").run();
+    }
+
     /**
      * This method will be running throughout the entire session
      * It will listen to the incoming users's command and process the comment accordingly
@@ -35,8 +40,9 @@ public class Duke {
     public void run() {
         this.UI.GreetLogo();
         this.UI.Greet();
+        UI.printInputRequest();
         Scanner sc = new Scanner(System.in);
-        while(true){
+        while (true) {
             try {
                 String input = sc.nextLine();
                 input = input.toLowerCase();
@@ -49,45 +55,42 @@ public class Duke {
                     try {
                         int taskNumber = Integer.parseInt(input.substring(5));
                         this.TASK_LIST.Done(taskNumber, this.STORAGE);
-                    }catch(StringIndexOutOfBoundsException e){
-                        System.out.println(new DukeException(      "OOPS!!! Done format is wrong"));
-                    }catch(NumberFormatException e){
-                        System.out.println(new DukeException(      "OOPS!!! Done format is wrong"));
+                    } catch (StringIndexOutOfBoundsException e) {
+                        System.out.println(new DukeException("OOPS!!! Done format is wrong"));
+                    } catch (NumberFormatException e) {
+                        System.out.println(new DukeException("OOPS!!! Done format is wrong"));
                     }
                 } else if (input.startsWith("delete")) {
                     try {
                         int taskNumber = Integer.parseInt(input.substring(7));
                         this.TASK_LIST.Delete(taskNumber, this.STORAGE);
-                    }catch(StringIndexOutOfBoundsException e){
-                        System.out.println(new DukeException(      "OOPS!!! Delete format is wrong"));
-                    }catch(NumberFormatException e){
-                        System.out.println(new DukeException(      "OOPS!!! Delete format is wrong"));
+                    } catch (StringIndexOutOfBoundsException e) {
+                        System.out.println(new DukeException("OOPS!!! Delete format is wrong"));
+                    } catch (NumberFormatException e) {
+                        System.out.println(new DukeException("OOPS!!! Delete format is wrong"));
                     }
-                } else if (input.startsWith("find")){
+                } else if (input.startsWith("find")) {
                     String KeyWord = input.substring(5).trim();
                     FindTask findTask = new FindTask(KeyWord, this.TASK_LIST.getTasks());
                     findTask.List();
                 } else {
-                    if(input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")){
+                    if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
 
-                        if(input.startsWith("todo")){
-                            this.TASK_LIST.AddTodo(input,this.STORAGE);
-                        }else if(input.startsWith("deadline")){
-                            this.TASK_LIST.AddDeadline(input,this.STORAGE);
-                        }else if(input.startsWith("event")){
-                            this.TASK_LIST.AddEvent(input,this.STORAGE);
+                        if (input.startsWith("todo")) {
+                            this.TASK_LIST.AddTodo(input, this.STORAGE);
+                        } else if (input.startsWith("deadline")) {
+                            this.TASK_LIST.AddDeadline(input, this.STORAGE);
+                        } else if (input.startsWith("event")) {
+                            this.TASK_LIST.AddEvent(input, this.STORAGE);
                         }
-                    }else{
+                    } else {
                         throw new DukeException("      ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
                     }
                 }
-            }catch(DukeException e){
+            } catch (DukeException e) {
                 System.out.println(e);
             }
+            UI.printInputRequest();
         }
-    }
-
-    public static void main(String[] args) {
-        new Duke("C:\\Users\\Shaopeng\\Desktop\\duke\\data\\duke.txt").run();
     }
 }
