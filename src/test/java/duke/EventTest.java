@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package duke;
 
 import duke.task.Events;
@@ -8,7 +11,15 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EventTest.
+ */
 public class EventTest {
+    
+    /**
+     * Test event date format.
+     */
     @Test
     public void TestEventDateFormat() {
         LocalDate EventDate = LocalDate.parse("2019-02-11");
@@ -16,6 +27,9 @@ public class EventTest {
         assertEquals("Feb 11 2019", task.getEventDate().format(DateTimeFormatter.ofPattern("MMM d yyyy")));
     }
 
+    /**
+     * Test event duration format.
+     */
     @Test
     public void TestEventDurationFormat() {
         LocalDate EventDate = LocalDate.parse("2019-02-11");

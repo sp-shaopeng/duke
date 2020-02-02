@@ -1,6 +1,12 @@
 package duke.ui;
 
+
+/**
+ * The Class Ui provides a basic user interface.
+ */
 public class Ui {
+    
+    /** The logo. */
     protected String logo = " ____        _        \n"
             + "|  _ \\ _   _| | _____ \n"
             + "| | | | | | | |/ / _ \\\n"
@@ -8,33 +14,36 @@ public class Ui {
             + "|____/ \\__,_|_|\\_\\___|\n";
 
     /**
-     * Greet with the logo
+     * Greet with the logo.
      */
-    public void GreetLogo() {
+    public void greetLogo() {
         System.out.println("Hello from\n" + this.logo + "\n");
     }
 
     /**
-     * Normal greeting
+     * Normal greeting.
      */
-    public void Greet() {
+    public void greet() {
         System.out.println("      Hello! I'm Duke\n" + "      What can I do for you?");
     }
 
+    /**
+     * Prints the input request.
+     */
     public void printInputRequest() {
         System.out.println();
         System.out.println("Input Command: ");
     }
 
     /**
-     * Sign off before exiting the program
+     * Sign off before exiting the program.
      */
-    public void Bye() {
+    public void bye() {
         System.out.println("      Bye. Hope to see you again soon!");
     }
 
     /**
-     * To notify that there is an error in the File
+     * To notify that there is an error in the File.
      */
     public void showLoadingError() {
         System.out.println("File is corrupted, Start on a new file");

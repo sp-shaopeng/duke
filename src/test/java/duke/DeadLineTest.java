@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package duke;
 
 import duke.task.Deadlines;
@@ -8,7 +11,15 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DeadLineTest.
+ */
 public class DeadLineTest {
+    
+    /**
+     * Test deadline format.
+     */
     @Test
     public void TestDeadlineFormat() {
         LocalDate deadLineDate = LocalDate.parse("2019-02-11");

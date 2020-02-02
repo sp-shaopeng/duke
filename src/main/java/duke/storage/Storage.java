@@ -8,45 +8,63 @@ import duke.task.ToDos;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
+
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class Storage {
-    private String FILE_PATH;
 
-    public Storage(String FILE_PATH) {
-        this.FILE_PATH = FILE_PATH;
+/**
+ * The Class Storage.
+ */
+public class Storage {
+    
+    /**
+     * The file path.
+     */
+    private String filePath;
+
+    /**
+     * Instantiates a new storage.
+     * @param filePath the file path
+     */
+    public Storage(String filePath) {
+        this.filePath = filePath;
     }
 
-    public ArrayList<Task> load() {
-        ArrayList<Task> Tasks = new ArrayList<>();
+    /**
+     * Load.
+     * @return the array list
+     */
+    public ArrayList<Task> loadData() {
+        ArrayList<Task> tasksList = new ArrayList<>();
         try {
-            File data = new File(this.FILE_PATH);
+            File data = new File(this.filePath);
             Scanner sc = new Scanner(data);
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] content = line.split("-");
-                String TaskNature = content[0];
+                String taskNature = content[0];
                 int isDone = Integer.parseInt(content[1]);
-                if (TaskNature.equals("T")) {
+                if (taskNature.equals("T")) {
                     ToDos todo = new ToDos(content[2]);
                     if (isDone == 1) {
                         todo.markAsDone();
                     }
-                    Tasks.add(todo);
-                } else if (TaskNature.equals("D")) {
+                    tasksList.add(todo);
+                } else if (taskNature.equals("D")) {
                     String date = content[3] + "-" + content[4] + "-" + content[5];
                     LocalDate deadlineDate = LocalDate.parse(date.trim());
                     Deadlines deadline = new Deadlines(content[2], deadlineDate);
                     if (isDone == 1) {
                         deadline.markAsDone();
                     }
-                    Tasks.add(deadline);
-                } else if (TaskNature.equals("E")) {
+                    tasksList.add(deadline);
+                } else if (taskNature.equals("E")) {
                     String date = content[3] + "-" + content[4] + "-" + content[5];
-                    LocalDate EventDate = LocalDate.parse(date.trim());
+                    LocalDate eventDate = LocalDate.parse(date.trim());
                     StringBuilder duration = new StringBuilder();
                     for (int i = 6; i < content.length; i++) {
                         if (i == content.length - 1) {
@@ -55,11 +73,11 @@ public class Storage {
                             duration.append(content[i] + "-");
                         }
                     }
-                    Events event = new Events(content[2], EventDate, duration.toString());
+                    Events event = new Events(content[2], eventDate, duration.toString());
                     if (isDone == 1) {
                         event.markAsDone();
                     }
-                    Tasks.add(event);
+                    tasksList.add(event);
                 } else {
                     break;
                 }
@@ -70,16 +88,20 @@ public class Storage {
             System.out.println("File Corrupted " + e.getMessage());
         }
 
-        return Tasks;
+        return tasksList;
     }
 
 
-    //THIS METHOD IS FOR TODO
-    public void appendToFile(String TaskNature, int isDone, String TaskDescription) {
+    /**
+     * Append to file.
+     * @param taskNature the task nature
+     * @param isDone the is done
+     * @param taskDescription the task description
+     */
+    public void appendToFile(String taskNature, int isDone, String taskDescription) {
         try {
-//            File data = new File(this.FILE_PATH);
-            FileWriter fr = new FileWriter(this.FILE_PATH, true);
-            String line = TaskNature + "-" + isDone + "-" + TaskDescription;
+            FileWriter fr = new FileWriter(this.filePath, true);
+            String line = taskNature + "-" + isDone + "-" + taskDescription;
             fr.write(line + "\n");
             fr.close();
         } catch (java.io.IOException e) {
@@ -87,12 +109,20 @@ public class Storage {
         }
     }
 
+    /**
+     * Append to file.
+     *
+     * @param taskNature the task nature
+     * @param isDone the is done
+     * @param taskDescription the task description
+     * @param time the time
+     */
     //THIS METHOD IS FOR DEADLINE AND EVENTS
-    public void appendToFile(String TaskNature, int isDone, String TaskDescription, String Time) {
+    public void appendToFile(String taskNature, int isDone, String taskDescription, String time) {
         try {
-//            File data = new File(this.FILE_PATH);
-            FileWriter fr = new FileWriter(this.FILE_PATH, true);
-            String line = TaskNature + "-" + isDone + "-" + TaskDescription + "-" + Time;
+            //File data = new File(this.FILE_PATH);
+            FileWriter fr = new FileWriter(this.filePath, true);
+            String line = taskNature + "-" + isDone + "-" + taskDescription + "-" + time;
             fr.write(line + "\n");
             fr.close();
         } catch (java.io.IOException e) {
@@ -100,13 +130,18 @@ public class Storage {
         }
     }
 
-    public void updateFile(ArrayList<Task> Tasks) {
+    /**
+     * Update file.
+     *
+     * @param tasksList the tasksList
+     */
+    public void updateFile(ArrayList<Task> tasksList) {
 
         try {
-            StringBuilder NewData = new StringBuilder();
-            Writer fileWriter = new FileWriter(this.FILE_PATH, false); //overwrites file
-            for (int i = 0; i < Tasks.size(); i++) {
-                Task task = Tasks.get(i);
+            StringBuilder newData = new StringBuilder();
+            Writer fileWriter = new FileWriter(this.filePath,false); //overwrites file
+            for (int i = 0; i < tasksList.size(); i++) {
+                Task task = tasksList.get(i);
                 if (task instanceof ToDos) {
                     String line;
                     if (task.getStatus()) {
@@ -114,30 +149,34 @@ public class Storage {
                     } else {
                         line = "T" + "-0-" + task.getDescription();
                     }
-                    NewData.append(line);
-                    NewData.append("\n");
+                    newData.append(line);
+                    newData.append("\n");
                 } else if (task instanceof Deadlines) {
                     String line;
                     if (task.getStatus()) {
-                        line = "D" + "-1-" + task.getDescription() + "-" + ((Deadlines) task).getDeadlineDate().toString();
+                        line = "D" + "-1-" + task.getDescription() + "-"
+                                + ((Deadlines) task).getDeadlineDate().toString();
                     } else {
-                        line = "D" + "-0-" + task.getDescription() + "-" + ((Deadlines) task).getDeadlineDate().toString();
+                        line = "D" + "-0-" + task.getDescription() + "-"
+                                + ((Deadlines) task).getDeadlineDate().toString();
                     }
-                    NewData.append(line);
-                    NewData.append("\n");
+                    newData.append(line);
+                    newData.append("\n");
                 } else {
                     String line;
                     if (task.getStatus()) {
-                        line = "E" + "-1-" + task.getDescription() + "-" + ((Events) task).getEventDate() + "-" + ((Events) task).getDuration();
+                        line = "E" + "-1-" + task.getDescription() + "-"
+                                + ((Events) task).getEventDate() + "-" + ((Events) task).getDuration();
                     } else {
-                        line = "E" + "-0-" + task.getDescription() + "-" + ((Events) task).getEventDate() + "-" + ((Events) task).getDuration();
+                        line = "E" + "-0-" + task.getDescription() + "-"
+                                + ((Events) task).getEventDate() + "-" + ((Events) task).getDuration();
                     }
-                    NewData.append(line);
-                    NewData.append("\n");
+                    newData.append(line);
+                    newData.append("\n");
                 }
 
             }
-            fileWriter.write(NewData.toString());
+            fileWriter.write(newData.toString());
             fileWriter.close();
 
         } catch (java.io.IOException e) {

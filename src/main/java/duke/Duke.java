@@ -9,52 +9,72 @@ import duke.ui.Ui;
 import java.util.Scanner;
 
 
+/**
+ * The Class Duke: driver class.
+ */
 public class Duke {
 
-    public String FILE_PATH;
-    private Storage STORAGE;
-    private TaskList TASK_LIST;
-    private Ui UI;
+    /** The file path. */
+    public String filePath;
+    
+    /** The storage. */
+    private Storage storage;
+    
+    /** The task list. */
+    private TaskList taskList;
+    
+    /** The ui. */
+    private Ui ui;
 
-    public Duke(String FILE_PATH) {
-        UI = new Ui();
-        this.FILE_PATH = FILE_PATH;
-        this.STORAGE = new Storage(FILE_PATH);
+    /**
+     * Instantiates a new duke.
+     *
+     * @param filePath the file path
+     */
+    public Duke(String filePath) {
+        ui = new Ui();
+        this.filePath = filePath;
+        this.storage = new Storage(filePath);
         try {
-            TASK_LIST = new TaskList(STORAGE.load());
+            taskList = new TaskList(storage.loadData());
         } catch (Exception e) {
-            UI.showLoadingError();
-            TASK_LIST = new TaskList();
+            ui.showLoadingError();
+            taskList = new TaskList();
         }
     }
 
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     */
     public static void main(String[] args) {
         new Duke("C:\\Users\\Shaopeng\\Desktop\\duke\\data\\duke.txt").run();
     }
 
     /**
      * This method will be running throughout the entire session
-     * It will listen to the incoming users's command and process the comment accordingly
+     * It will listen to the incoming users's command and process the comment accordingly.
      */
 
     public void run() {
-        this.UI.GreetLogo();
-        this.UI.Greet();
-        UI.printInputRequest();
+        this.ui.greetLogo();
+        this.ui.greet();
+        ui.printInputRequest();
         Scanner sc = new Scanner(System.in);
         while (true) {
             try {
                 String input = sc.nextLine();
                 input = input.toLowerCase();
                 if (input.equalsIgnoreCase("bye")) {
-                    this.UI.Bye();
+                    this.ui.bye();
                     break;
                 } else if (input.equalsIgnoreCase("list")) {
-                    this.TASK_LIST.List();
+                    this.taskList.list();
                 } else if (input.startsWith("done")) {
                     try {
                         int taskNumber = Integer.parseInt(input.substring(5));
-                        this.TASK_LIST.Done(taskNumber, this.STORAGE);
+                        this.taskList.done(taskNumber, this.storage);
                     } catch (StringIndexOutOfBoundsException e) {
                         System.out.println(new DukeException("OOPS!!! Done format is wrong"));
                     } catch (NumberFormatException e) {
@@ -63,25 +83,25 @@ public class Duke {
                 } else if (input.startsWith("delete")) {
                     try {
                         int taskNumber = Integer.parseInt(input.substring(7));
-                        this.TASK_LIST.Delete(taskNumber, this.STORAGE);
+                        this.taskList.delete(taskNumber, this.storage);
                     } catch (StringIndexOutOfBoundsException e) {
                         System.out.println(new DukeException("OOPS!!! Delete format is wrong"));
                     } catch (NumberFormatException e) {
                         System.out.println(new DukeException("OOPS!!! Delete format is wrong"));
                     }
                 } else if (input.startsWith("find")) {
-                    String KeyWord = input.substring(5).trim();
-                    FindTask findTask = new FindTask(KeyWord, this.TASK_LIST.getTasks());
-                    findTask.List();
+                    String keyWord = input.substring(5).trim();
+                    FindTask findTask = new FindTask(keyWord, this.taskList.getTaskList());
+                    findTask.list();
                 } else {
                     if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
 
                         if (input.startsWith("todo")) {
-                            this.TASK_LIST.AddTodo(input, this.STORAGE);
+                            this.taskList.addTodo(input, this.storage);
                         } else if (input.startsWith("deadline")) {
-                            this.TASK_LIST.AddDeadline(input, this.STORAGE);
+                            this.taskList.addDeadline(input, this.storage);
                         } else if (input.startsWith("event")) {
-                            this.TASK_LIST.AddEvent(input, this.STORAGE);
+                            this.taskList.addEvent(input, this.storage);
                         }
                     } else {
                         throw new DukeException("      ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
@@ -90,7 +110,7 @@ public class Duke {
             } catch (DukeException e) {
                 System.out.println(e);
             }
-            UI.printInputRequest();
+            ui.printInputRequest();
         }
     }
 }

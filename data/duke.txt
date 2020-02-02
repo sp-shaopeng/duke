@@ -1,5 +1,4 @@
 T-0-buy food
-T-0-cook food
 D-0-get food-2019-04-21
 E-0-return book-2019-03-23-4-9pm
 E-0-slap u-2019-09-23-2-9pm
