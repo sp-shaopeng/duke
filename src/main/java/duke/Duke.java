@@ -1,13 +1,16 @@
 package duke;
 
 import duke.exception.DukeException;
+
 import duke.storage.Storage;
+
 import duke.task.FindTask;
+
 import duke.task.TaskList;
+
 import duke.ui.Ui;
 
 import java.util.Scanner;
-
 
 /**
  * The Class Duke: driver class.
@@ -28,12 +31,10 @@ public class Duke {
 
     /**
      * Instantiates a new duke.
-     *
-     * @param filePath the file path
      */
-    public Duke(String filePath) {
+    public Duke() {
         ui = new Ui();
-        this.filePath = filePath;
+        this.filePath = "C:\\Users\\Shaopeng\\Desktop\\duke\\data\\duke.txt";
         this.storage = new Storage(filePath);
         try {
             taskList = new TaskList(storage.loadData());
@@ -43,13 +44,18 @@ public class Duke {
         }
     }
 
+    public String getResponse(String input){
+        return input;
+    }
+
+
     /**
      * The main method.
      *
      * @param args the arguments
      */
     public static void main(String[] args) {
-        new Duke("C:\\Users\\Shaopeng\\Desktop\\duke\\data\\duke.txt").run();
+        new Duke().run();
     }
 
     /**
@@ -116,4 +122,8 @@ public class Duke {
             ui.printInputRequest();
         }
     }
+
+
+
+
 }

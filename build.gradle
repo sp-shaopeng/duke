@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id 'checkstyle'
     id 'com.github.johnrengelman.shadow' version '5.1.0'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
 }
 
 group 'seedu.duke'
@@ -12,9 +13,14 @@ repositories {
     mavenCentral()
 }
 
+javafx {
+    version = "11.0.2"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
 application {
     // Change this to your main class.
-    mainClassName = "duke.Duke"
+    mainClassName = "duke.Launcher"
 }
 
 checkstyle {
@@ -24,7 +30,7 @@ checkstyle {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'com.duke.Duke.Class'
+                'Main-Class': 'com.duke.Launcher.Class'
         )
     }
 }
@@ -47,3 +53,4 @@ test {
 run {
     standardInput = System.in
 }
+
