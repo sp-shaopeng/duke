@@ -18,13 +18,35 @@ public class FindTask extends TaskList {
      * @param description the description
      * @param allData the all data
      */
-    public FindTask(String description, ArrayList<Task> allData) {
-        specificTask = new ArrayList<Task>();
-        for (int i = 0; i < allData.size(); i++) {
-            if (allData.get(i).getDescription().contains(description.trim())) {
-                specificTask.add(allData.get(i));
+//    public FindTask(String description, ArrayList<Task> allData) {
+//        specificTask = new ArrayList<Task>();
+//        for (int i = 0; i < allData.size(); i++) {
+//            if (allData.get(i).getDescription().contains(description.trim())) {
+//                specificTask.add(allData.get(i));
+//            }
+//        }
+//    }
+
+    /**
+     * Instantiates a new find task.
+     *
+     * @param allData the all data
+     */
+    public FindTask(ArrayList<Task> allData) {
+        this.specificTask = allData;
+    }
+
+    public void search(String ... keywords) {
+        ArrayList<Task> targetList = new ArrayList<>();
+        for(int i = 0; i < specificTask.size(); i++) {
+            for(String word: keywords) {
+                if(specificTask.get(i).getDescription().contains(word)) {
+                    targetList.add(specificTask.get(i));
+                    break;
+                }
             }
         }
+        this.specificTask = targetList;
     }
 
     /**

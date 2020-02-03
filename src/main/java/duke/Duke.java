@@ -90,9 +90,12 @@ public class Duke {
                         System.out.println(new DukeException("OOPS!!! Delete format is wrong"));
                     }
                 } else if (input.startsWith("find")) {
-                    String keyWord = input.substring(5).trim();
-                    FindTask findTask = new FindTask(keyWord, this.taskList.getTaskList());
+                    String [] keyWords = input.substring(5).trim().split(" ");
+
+                    FindTask findTask = new FindTask(this.taskList.getTaskList());
+                    findTask.search(keyWords);
                     findTask.list();
+
                 } else {
                     if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
 
