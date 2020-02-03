@@ -1,134 +1,126 @@
 package duke;
 
-import java.io.IOException;
+import duke.exception.DukeException;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import duke.storage.Storage;
 
+import duke.task.FindTask;
 
-public class Duke extends Application {
-    private ScrollPane scrollPane;
-    private VBox dialogContainer;
-    private TextField userInput;
-    private Button sendButton;
-    private Scene scene;
+import duke.task.TaskList;
 
-    private Image user = new Image(Duke.class.getResourceAsStream("/images/user.png"));
-    private Image duke = new Image(Duke.class.getResourceAsStream("/images/duke.png"));
+import duke.ui.Ui;
 
-    @Override
-    public void start(Stage stage) {
-        //Step 1. Setting up required components
+import java.util.Scanner;
 
-        //The container for the content of the chat to scroll.
-        scrollPane = new ScrollPane();
-        dialogContainer = new VBox();
-        scrollPane.setContent(dialogContainer);
+/**
+ * The Class Duke: driver class.
+ */
+public class Duke {
 
-        userInput = new TextField();
-        sendButton = new Button("Send");
+    /** The file path. */
+    public String filePath;
+    
+    /** The storage. */
+    private Storage storage;
+    
+    /** The task list. */
+    private TaskList taskList;
+    
+    /** The ui. */
+    private Ui ui;
 
-        AnchorPane mainLayout = new AnchorPane();
-        mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);
-
-        scene = new Scene(mainLayout);
-
-        stage.setScene(scene);
-        stage.show();
-
-        stage.setTitle("Duke");
-        stage.setResizable(false);
-        stage.setMinHeight(600.0);
-        stage.setMinWidth(400.0);
-
-        mainLayout.setPrefSize(400.0, 600.0);
-
-        scrollPane.setPrefSize(385, 535);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-
-        scrollPane.setVvalue(1.0);
-        scrollPane.setFitToWidth(true);
-
-        // You will need to import `javafx.scene.layout.Region` for this.
-        dialogContainer.setPrefHeight(Region.USE_COMPUTED_SIZE);
-
-        userInput.setPrefWidth(325.0);
-
-        sendButton.setPrefWidth(55.0);
-
-        AnchorPane.setTopAnchor(scrollPane, 1.0);
-
-        AnchorPane.setBottomAnchor(sendButton, 1.0);
-        AnchorPane.setRightAnchor(sendButton, 1.0);
-
-        AnchorPane.setLeftAnchor(userInput , 1.0);
-        AnchorPane.setBottomAnchor(userInput, 1.0);
-
-        //TUT 3
-
-        dialogContainer.heightProperty().addListener((observable) -> scrollPane.setVvalue(1.0));
-
-        //Part 3. Add functionality to handle user input.
-        sendButton.setOnMouseClicked((event) -> {
-            handleUserInput();
-        });
-
-        userInput.setOnAction((event) -> {
-            handleUserInput();
-        });
-
-
+    /**
+     * Instantiates a new duke.
+     */
+    public Duke() {
+        ui = new Ui();
+        this.filePath = "C:\\Users\\Shaopeng\\Desktop\\duke\\data\\duke.txt";
+        this.storage = new Storage(filePath);
+        try {
+            taskList = new TaskList(storage.loadData());
+        } catch (Exception e) {
+            ui.showLoadingError();
+            taskList = new TaskList();
+        }
     }
 
+    public String getResponse(String input){
+        return input;
+    }
 
 
     /**
-     * Iteration 1:
-     * Creates a label with the specified text and adds it to the dialog container.
-     * @param text String containing text to add
-     * @return a label with the specified text that has word wrap enabled.
+     * The main method.
+     *
+     * @param args the arguments
      */
-    private Label getDialogLabel(String text) {
-        // You will need to import `javafx.scene.control.Label`.
-        Label textToAdd = new Label(text);
-        textToAdd.setWrapText(true);
-
-        return textToAdd;
+    public static void main(String[] args) {
+        new Duke().run();
     }
 
     /**
-     * Iteration 2:
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
-     * the dialog container. Clears the user input after processing.
+     * This method will be running throughout the entire session
+     * It will listen to the incoming users's command and process the comment accordingly.
      */
-    private void handleUserInput() {
-        Label userText = new Label(userInput.getText());
-        Label dukeText = new Label(getResponse(userInput.getText()));
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(userText, new ImageView(user)),
-                DialogBox.getDukeDialog(dukeText, new ImageView(duke))
-        );
-        userInput.clear();
+
+    public void run() {
+        this.ui.greetLogo();
+        this.ui.greet();
+        ui.printInputRequest();
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                String input = sc.nextLine();
+                input = input.toLowerCase();
+                if (input.equalsIgnoreCase("bye")) {
+                    this.ui.bye();
+                    break;
+                } else if (input.equalsIgnoreCase("list")) {
+                    this.taskList.list();
+                } else if (input.startsWith("done")) {
+                    try {
+                        int taskNumber = Integer.parseInt(input.substring(5));
+                        this.taskList.done(taskNumber, this.storage);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        System.out.println(new DukeException("OOPS!!! Done format is wrong"));
+                    } catch (NumberFormatException e) {
+                        System.out.println(new DukeException("OOPS!!! Done format is wrong"));
+                    }
+                } else if (input.startsWith("delete")) {
+                    try {
+                        int taskNumber = Integer.parseInt(input.substring(7));
+                        this.taskList.delete(taskNumber, this.storage);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        System.out.println(new DukeException("OOPS!!! Delete format is wrong"));
+                    } catch (NumberFormatException e) {
+                        System.out.println(new DukeException("OOPS!!! Delete format is wrong"));
+                    }
+                } else if (input.startsWith("find")) {
+                    String keyWord = input.substring(5).trim();
+                    FindTask findTask = new FindTask(keyWord, this.taskList.getTaskList());
+                    findTask.list();
+                } else {
+                    if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
+
+                        if (input.startsWith("todo")) {
+                            this.taskList.addTodo(input, this.storage);
+                        } else if (input.startsWith("deadline")) {
+                            this.taskList.addDeadline(input, this.storage);
+                        } else if (input.startsWith("event")) {
+                            this.taskList.addEvent(input, this.storage);
+                        }
+                    } else {
+                        throw new DukeException("      ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                    }
+                }
+            } catch (DukeException e) {
+                System.out.println(e);
+            }
+            ui.printInputRequest();
+        }
     }
 
-    /**
-     * You should have your own function to generate a response to user input.
-     * Replace this stub with your completed method.
-     */
-    private String getResponse(String input) {
-        return "Duke heard: " + input;
-    }
+
+
+
 }
