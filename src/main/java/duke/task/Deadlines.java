@@ -8,14 +8,16 @@ import java.time.format.DateTimeFormatter;
  * The Class Deadlines is for tasks whose is a Deadline format.
  */
 public class Deadlines extends Task {
-    
-    /** The deadline date: the due date. */
+
+    /**
+     * The deadline date: the due date.
+     */
     protected LocalDate deadLineDate;
 
     /**
      * Instantiates a new deadlines.
      *
-     * @param description the description
+     * @param description  the description
      * @param deadLineDate the deadline date
      */
     public Deadlines(String description, LocalDate deadLineDate) {

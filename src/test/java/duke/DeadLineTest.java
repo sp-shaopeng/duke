@@ -1,7 +1,6 @@
 package duke;
 
 import duke.task.Deadlines;
-
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -13,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * The Class DeadLineTest.
  */
 public class DeadLineTest {
-    
+
     /**
      * Test deadline format.
      */

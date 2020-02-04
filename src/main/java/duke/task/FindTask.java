@@ -1,4 +1,3 @@
-
 package duke.task;
 
 import java.util.ArrayList;
@@ -8,24 +7,13 @@ import java.util.ArrayList;
  * by checking the task description with the keywords.
  */
 public class FindTask extends TaskList {
-    
-    /** The specific task. */
-    protected ArrayList<Task> specificTask;
 
     /**
-     * Instantiates a new find task.
-     *
-     * @param description the description
-     * @param allData the all data
+     * The specific task.
      */
-//    public FindTask(String description, ArrayList<Task> allData) {
-//        specificTask = new ArrayList<Task>();
-//        for (int i = 0; i < allData.size(); i++) {
-//            if (allData.get(i).getDescription().contains(description.trim())) {
-//                specificTask.add(allData.get(i));
-//            }
-//        }
-//    }
+    protected ArrayList<Task> specificTask;
+
+
 
     /**
      * Instantiates a new find task.
@@ -36,11 +24,16 @@ public class FindTask extends TaskList {
         this.specificTask = allData;
     }
 
-    public void search(String ... keywords) {
+    /**
+     * To find the specific task according to the keyword.
+     *
+     * @param keywords an string array contains all the keywords
+     */
+    public void search(String... keywords) {
         ArrayList<Task> targetList = new ArrayList<>();
-        for(int i = 0; i < specificTask.size(); i++) {
-            for(String word: keywords) {
-                if(specificTask.get(i).getDescription().contains(word)) {
+        for (int i = 0; i < specificTask.size(); i++) {
+            for (String word : keywords) {
+                if (specificTask.get(i).getDescription().contains(word)) {
                     targetList.add(specificTask.get(i));
                     break;
                 }

@@ -1,19 +1,19 @@
 package duke.task;
 
 import duke.exception.DukeException;
-
 import duke.storage.Storage;
 
 import java.time.LocalDate;
-
 import java.util.ArrayList;
 
 /**
  * The Class TaskList is class to keep track of all the task that is created.
  */
 public class TaskList {
-    
-    /** The taskList. */
+
+    /**
+     * The taskList.
+     */
     protected ArrayList<Task> taskList;
 
     /**
@@ -45,7 +45,7 @@ public class TaskList {
      * Adds the todo.
      *
      * @param input the input
-     * @param data the data
+     * @param data  the data
      * @throws DukeException the duke exception
      */
     public void addTodo(String input, Storage data) throws DukeException {
@@ -63,7 +63,7 @@ public class TaskList {
      * Adds the deadline.
      *
      * @param input the input
-     * @param data the data
+     * @param data  the data
      * @throws DukeException the duke exception
      */
     public void addDeadline(String input, Storage data) throws DukeException {
@@ -89,7 +89,7 @@ public class TaskList {
      * Adds the event.
      *
      * @param input the input
-     * @param data the data
+     * @param data  the data
      * @throws DukeException the duke exception
      */
     public void addEvent(String input, Storage data) throws DukeException {
@@ -147,7 +147,7 @@ public class TaskList {
      * Done.
      *
      * @param number the number
-     * @param data the data
+     * @param data   the data
      * @throws DukeException the duke exception
      */
     public void done(int number, Storage data) throws DukeException {
@@ -166,7 +166,7 @@ public class TaskList {
      * Delete.
      *
      * @param number the number
-     * @param data the data
+     * @param data   the data
      * @throws DukeException the duke exception
      */
     public void delete(int number, Storage data) throws DukeException {

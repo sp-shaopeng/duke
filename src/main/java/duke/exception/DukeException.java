@@ -4,8 +4,10 @@ package duke.exception;
  * The Class DukeException extends Exception class.
  */
 public class DukeException extends Exception {
-    
-    /** The error msg. */
+
+    /**
+     * The error msg.
+     */
     String errorMsg;
 
     /**

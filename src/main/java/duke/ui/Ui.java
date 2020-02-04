@@ -5,8 +5,10 @@ package duke.ui;
  * The Class Ui provides a basic user interface.
  */
 public class Ui {
-    
-    /** The logo. */
+
+    /**
+     * The logo.
+     */
     protected String logo = " ____        _        \n"
             + "|  _ \\ _   _| | _____ \n"
             + "| | | | | | | |/ / _ \\\n"

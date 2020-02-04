@@ -8,19 +8,16 @@ import duke.task.ToDos;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
-
 import java.time.LocalDate;
-
 import java.util.ArrayList;
 import java.util.Scanner;
-
 
 
 /**
  * The Class Storage.
  */
 public class Storage {
-    
+
     /**
      * The file path.
      */
@@ -28,6 +25,7 @@ public class Storage {
 
     /**
      * Instantiates a new storage.
+     *
      * @param filePath the file path
      */
     public Storage(String filePath) {
@@ -36,6 +34,7 @@ public class Storage {
 
     /**
      * Load.
+     *
      * @return the array list
      */
     public ArrayList<Task> loadData() {
@@ -94,8 +93,9 @@ public class Storage {
 
     /**
      * Append to file.
-     * @param taskNature the task nature
-     * @param isDone the is done
+     *
+     * @param taskNature      the task nature
+     * @param isDone          the is done
      * @param taskDescription the task description
      */
     public void appendToFile(String taskNature, int isDone, String taskDescription) {
@@ -112,10 +112,10 @@ public class Storage {
     /**
      * Append to file.
      *
-     * @param taskNature the task nature
-     * @param isDone the is done
+     * @param taskNature      the task nature
+     * @param isDone          the is done
      * @param taskDescription the task description
-     * @param time the time
+     * @param time            the time
      */
     //THIS METHOD IS FOR DEADLINE AND EVENTS
     public void appendToFile(String taskNature, int isDone, String taskDescription, String time) {
@@ -139,7 +139,7 @@ public class Storage {
 
         try {
             StringBuilder newData = new StringBuilder();
-            Writer fileWriter = new FileWriter(this.filePath,false); //overwrites file
+            Writer fileWriter = new FileWriter(this.filePath, false); //overwrites file
             for (int i = 0; i < tasksList.size(); i++) {
                 Task task = tasksList.get(i);
                 if (task instanceof ToDos) {

@@ -1,13 +1,9 @@
 package duke;
 
 import duke.exception.DukeException;
-
 import duke.storage.Storage;
-
 import duke.task.FindTask;
-
 import duke.task.TaskList;
-
 import duke.ui.Ui;
 
 import java.util.Scanner;
@@ -17,16 +13,24 @@ import java.util.Scanner;
  */
 public class Duke {
 
-    /** The file path. */
+    /**
+     * The file path.
+     */
     public String filePath;
-    
-    /** The storage. */
+
+    /**
+     * The storage.
+     */
     private Storage storage;
-    
-    /** The task list. */
+
+    /**
+     * The task list.
+     */
     private TaskList taskList;
-    
-    /** The ui. */
+
+    /**
+     * The ui.
+     */
     private Ui ui;
 
     /**
@@ -44,11 +48,6 @@ public class Duke {
         }
     }
 
-    public String getResponse(String input){
-        return input;
-    }
-
-
     /**
      * The main method.
      *
@@ -56,6 +55,10 @@ public class Duke {
      */
     public static void main(String[] args) {
         new Duke().run();
+    }
+
+    public String getResponse(String input) {
+        return input;
     }
 
     /**
@@ -96,7 +99,7 @@ public class Duke {
                         System.out.println(new DukeException("OOPS!!! Delete format is wrong"));
                     }
                 } else if (input.startsWith("find")) {
-                    String [] keyWords = input.substring(5).trim().split(" ");
+                    String[] keyWords = input.substring(5).trim().split(" ");
 
                     FindTask findTask = new FindTask(this.taskList.getTaskList());
                     findTask.search(keyWords);
@@ -122,8 +125,6 @@ public class Duke {
             ui.printInputRequest();
         }
     }
-
-
 
 
 }

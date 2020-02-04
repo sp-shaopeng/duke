@@ -12,7 +12,7 @@ public class Events extends Task {
      * The duration: when the event held in hours e.g 3-6pm.
      */
     protected String duration;
-    
+
     /**
      * The Event date: the date the event held.
      */
@@ -22,8 +22,8 @@ public class Events extends Task {
      * Instantiates a new events.
      *
      * @param description the description
-     * @param eventDate the event date
-     * @param duration the duration
+     * @param eventDate   the event date
+     * @param duration    the duration
      */
     public Events(String description, LocalDate eventDate, String duration) {
         super(description);

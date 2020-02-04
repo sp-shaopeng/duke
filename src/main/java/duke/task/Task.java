@@ -1,15 +1,18 @@
-
 package duke.task;
 
 /**
  * The Class Task is thr root for all different type of tasks.
  */
 public class Task {
-    
-    /** The description: describes the task. */
+
+    /**
+     * The description: describes the task.
+     */
     protected String description;
-    
-    /** The is done: indicates if the task is being completed. */
+
+    /**
+     * The is done: indicates if the task is being completed.
+     */
     protected boolean isDone;
 
     /**
@@ -57,6 +60,7 @@ public class Task {
 
     /**
      * Gets the status.
+     *
      * @return a boolean: true: the task is done, false: the task is not done
      */
     public boolean getStatus() {

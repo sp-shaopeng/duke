@@ -1,21 +1,19 @@
 package duke;
 
 import duke.task.Events;
-
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
  * The Class EventTest.
  */
 public class EventTest {
-    
+
     /**
      * Test event date format.
      */
