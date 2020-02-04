@@ -6,10 +6,10 @@ import duke.task.FindTask;
 import duke.task.TaskList;
 import duke.ui.Ui;
 
-import java.util.Scanner;
+
 
 /**
- * The Class Duke: driver class.
+ * The Class Duke
  */
 public class Duke {
 
@@ -38,7 +38,7 @@ public class Duke {
      */
     public Duke() {
         ui = new Ui();
-        this.filePath = "C:\\Users\\Shaopeng\\Desktop\\duke\\data\\duke.txt";
+        this.filePath = "../duke/data/duke.txt";
         this.storage = new Storage(filePath);
         try {
             taskList = new TaskList(storage.loadData());
@@ -48,82 +48,62 @@ public class Duke {
         }
     }
 
-    /**
-     * The main method.
-     *
-     * @param args the arguments
-     */
-    public static void main(String[] args) {
-        new Duke().run();
-    }
 
-    public String getResponse(String input) {
-        return input;
+    public String processCommand(String input){
+        try{
+            input = input.toLowerCase();
+            if (input.equalsIgnoreCase("bye")) {
+                return this.ui.bye();
+            } else if (input.equalsIgnoreCase("list")) {
+                return this.taskList.list();
+            } else if (input.startsWith("done")) {
+                try {
+                    int taskNumber = Integer.parseInt(input.substring(5));
+                    return this.taskList.done(taskNumber, this.storage);
+                } catch (StringIndexOutOfBoundsException e) {
+                    return new DukeException("OOPS!!! Done format is wrong\n").toString();
+                } catch (NumberFormatException e) {
+                    return new DukeException("OOPS!!! Done format is wrong\n").toString();
+                }
+            } else if (input.startsWith("delete")) {
+                try {
+                    int taskNumber = Integer.parseInt(input.substring(7));
+                    return this.taskList.delete(taskNumber, this.storage);
+                } catch (StringIndexOutOfBoundsException e) {
+                    return new DukeException("OOPS!!! Delete format is wrong").toString();
+                } catch (NumberFormatException e) {
+                    return new DukeException("OOPS!!! Delete format is wrong").toString();
+                }
+            } else if (input.startsWith("find")) {
+                String[] keyWords = input.substring(5).trim().split(" ");
+                FindTask findTask = new FindTask(this.taskList.getTaskList());
+                findTask.search(keyWords);
+                return findTask.list();
+            } else {
+                if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
+                    if (input.startsWith("todo")) {
+                        return this.taskList.addTodo(input, this.storage);
+                    } else if (input.startsWith("deadline")) {
+                        return this.taskList.addDeadline(input, this.storage);
+                    } else if (input.startsWith("event")) {
+                        return this.taskList.addEvent(input, this.storage);
+                    }
+                } else {
+                    throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n");
+                }
+            }
+        } catch (DukeException e) {
+            return e.toString();
+        }
+        return "";
     }
-
     /**
      * This method will be running throughout the entire session
      * It will listen to the incoming users's command and process the comment accordingly.
+     * @return a greeting string
      */
-
-    public void run() {
-        this.ui.greetLogo();
-        this.ui.greet();
-        ui.printInputRequest();
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            try {
-                String input = sc.nextLine();
-                input = input.toLowerCase();
-                if (input.equalsIgnoreCase("bye")) {
-                    this.ui.bye();
-                    break;
-                } else if (input.equalsIgnoreCase("list")) {
-                    this.taskList.list();
-                } else if (input.startsWith("done")) {
-                    try {
-                        int taskNumber = Integer.parseInt(input.substring(5));
-                        this.taskList.done(taskNumber, this.storage);
-                    } catch (StringIndexOutOfBoundsException e) {
-                        System.out.println(new DukeException("OOPS!!! Done format is wrong"));
-                    } catch (NumberFormatException e) {
-                        System.out.println(new DukeException("OOPS!!! Done format is wrong"));
-                    }
-                } else if (input.startsWith("delete")) {
-                    try {
-                        int taskNumber = Integer.parseInt(input.substring(7));
-                        this.taskList.delete(taskNumber, this.storage);
-                    } catch (StringIndexOutOfBoundsException e) {
-                        System.out.println(new DukeException("OOPS!!! Delete format is wrong"));
-                    } catch (NumberFormatException e) {
-                        System.out.println(new DukeException("OOPS!!! Delete format is wrong"));
-                    }
-                } else if (input.startsWith("find")) {
-                    String[] keyWords = input.substring(5).trim().split(" ");
-
-                    FindTask findTask = new FindTask(this.taskList.getTaskList());
-                    findTask.search(keyWords);
-                    findTask.list();
-
-                } else {
-                    if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
-
-                        if (input.startsWith("todo")) {
-                            this.taskList.addTodo(input, this.storage);
-                        } else if (input.startsWith("deadline")) {
-                            this.taskList.addDeadline(input, this.storage);
-                        } else if (input.startsWith("event")) {
-                            this.taskList.addEvent(input, this.storage);
-                        }
-                    } else {
-                        throw new DukeException("      ☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
-                    }
-                }
-            } catch (DukeException e) {
-                System.out.println(e);
-            }
-            ui.printInputRequest();
-        }
+    public String greet() {
+        return  this.ui.greetLogo() + this.ui.greet();
     }
 
 

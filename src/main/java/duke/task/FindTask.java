@@ -55,12 +55,14 @@ public class FindTask extends TaskList {
      * List.
      */
     @Override
-    public void list() {
-        System.out.println("      Here are the tasks in your list:");
+    public String list() {
+        StringBuilder output = new StringBuilder();
+        output.append("Here are the tasks in your list:\n");
         int taskSize = this.specificTask.size();
         for (int i = 0; i < taskSize; i++) {
             int count = i + 1;
-            System.out.println("      " + count + ". " + this.specificTask.get(i).toString());
+            output.append("      " + count + ". " + this.specificTask.get(i).toString());
         }
+        return output.toString();
     }
 }
