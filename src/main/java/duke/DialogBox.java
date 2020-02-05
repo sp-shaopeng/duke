@@ -10,8 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -51,7 +49,7 @@ public class DialogBox extends HBox {
      * method for javaFX.
      *
      * @param text the string input
-     * @param img the image to display
+     * @param img  the image to display
      */
     public static DialogBox getDukeDialog(String text, Image img) {
         var db = new DialogBox(text, img);

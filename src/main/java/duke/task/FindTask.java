@@ -14,7 +14,6 @@ public class FindTask extends TaskList {
     protected ArrayList<Task> specificTask;
 
 
-
     /**
      * Instantiates a new find task.
      *

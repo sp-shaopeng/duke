@@ -10,14 +10,15 @@ public class Ui {
      * The logo.
      */
     protected String logo = " ____        _        \n"
-            + "|  _ \\ _   _| | _____ \n"
-            + "| | | | | | | |/ / _ \\\n"
-            + "| |_| | |_| |   <  __/\n"
-            + "|____/ \\__,_|_|\\_\\___|\n";
+                        + "|  _ \\ _   _| | _____ \n"
+                        + "| | | | | | | |/ / _ \\\n"
+                        + "| |_| | |_| |   <  __/\n"
+                        + "|____/ \\__,_|_|\\_\\___|\n";
 
     /**
      * Greet with the logo.
-     * @return  a string to greet and show logo
+     *
+     * @return a string to greet and show logo
      */
     public String greetLogo() {
         return "Hello from\n" + this.logo + "\n";
@@ -25,10 +26,11 @@ public class Ui {
 
     /**
      * Normal greeting.
+     *
      * @return a string to greet
      */
     public String greet() {
-        return "      Hello! I'm Duke\n" + "      What can I do for you?\n";
+        return "Hello! I'm Duke\n" + "What can I do for you?\n";
     }
 
     /**
@@ -41,6 +43,7 @@ public class Ui {
 
     /**
      * Sign off before exiting the program.
+     *
      * @return a string to greet bye
      */
     public String bye() {
@@ -49,6 +52,7 @@ public class Ui {
 
     /**
      * To notify that there is an error in the File.
+     *
      * @return an string to denote the file is corrupted
      */
     public String showLoadingError() {

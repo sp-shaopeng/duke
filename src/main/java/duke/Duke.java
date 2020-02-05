@@ -7,7 +7,6 @@ import duke.task.TaskList;
 import duke.ui.Ui;
 
 
-
 /**
  * The Class Duke
  */
@@ -49,8 +48,8 @@ public class Duke {
     }
 
 
-    public String processCommand(String input){
-        try{
+    public String processCommand(String input) {
+        try {
             input = input.toLowerCase();
             if (input.equalsIgnoreCase("bye")) {
                 return this.ui.bye();
@@ -97,13 +96,15 @@ public class Duke {
         }
         return "";
     }
+
     /**
      * This method will be running throughout the entire session
      * It will listen to the incoming users's command and process the comment accordingly.
+     *
      * @return a greeting string
      */
     public String greet() {
-        return  this.ui.greetLogo() + this.ui.greet();
+        return this.ui.greetLogo() + this.ui.greet();
     }
 
 
