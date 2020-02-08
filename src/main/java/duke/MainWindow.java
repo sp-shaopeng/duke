@@ -59,7 +59,7 @@ public class MainWindow extends AnchorPane {
 
         userInput.clear();
 
-        if(input.toLowerCase().startsWith("bye")) {
+        if (input.toLowerCase().startsWith("bye")) {
             new TimedExit();
         }
     }

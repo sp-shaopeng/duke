@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -36,8 +37,9 @@ public class DialogBox extends HBox {
         }
 
         dialog.setText(text);
-        dialog.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
-
+//        dialog.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+        dialog.setWrapText(true);
+        dialog.setTextAlignment(TextAlignment.JUSTIFY);
         displayPicture.setImage(img);
     }
 

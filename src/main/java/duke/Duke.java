@@ -8,7 +8,7 @@ import duke.ui.Ui;
 
 
 /**
- * The Class Duke
+ * The Class Duke.
  */
 public class Duke {
 
@@ -47,7 +47,11 @@ public class Duke {
         }
     }
 
-
+    /**
+     * process the command and output String
+     * @param input the command by user
+     * @return string which is the response to the command
+     */
     public String processCommand(String input) {
         try {
             input = input.toLowerCase();
