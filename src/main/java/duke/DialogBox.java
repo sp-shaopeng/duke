@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -36,6 +37,9 @@ public class DialogBox extends HBox {
         }
 
         dialog.setText(text);
+//        dialog.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+        dialog.setWrapText(true);
+        dialog.setTextAlignment(TextAlignment.JUSTIFY);
         displayPicture.setImage(img);
     }
 
@@ -47,7 +51,7 @@ public class DialogBox extends HBox {
      * method for javaFX.
      *
      * @param text the string input
-     * @param img the image to display
+     * @param img  the image to display
      */
     public static DialogBox getDukeDialog(String text, Image img) {
         var db = new DialogBox(text, img);

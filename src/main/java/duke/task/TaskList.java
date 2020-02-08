@@ -46,17 +46,20 @@ public class TaskList {
      *
      * @param input the input
      * @param data  the data
+     * @return String to denote addTodo
      * @throws DukeException the duke exception
      */
-    public void addTodo(String input, Storage data) throws DukeException {
+    public String addTodo(String input, Storage data) throws DukeException {
+        StringBuilder output = new StringBuilder();
         String remainString = input.replace("todo", "").trim();
         if (remainString.length() >= 1) {
             ToDos newToDo = new ToDos(remainString);
-            add(newToDo);
+            output.append(add(newToDo));
             data.appendToFile("T", 0, remainString);
         } else {
-            throw new DukeException("      ☹ OOPS!!! The description of a todo cannot be empty.");
+            return new DukeException("☹ OOPS!!! The description of a todo cannot be empty.\n").toString();
         }
+        return output.toString();
     }
 
     /**
@@ -64,24 +67,27 @@ public class TaskList {
      *
      * @param input the input
      * @param data  the data
+     * @return String to denote addDeadline
      * @throws DukeException the duke exception
      */
-    public void addDeadline(String input, Storage data) throws DukeException {
+    public String addDeadline(String input, Storage data) throws DukeException {
+        StringBuilder output = new StringBuilder();
         String remainString = input.replace("deadline", "").trim();
         if (remainString.length() >= 1) {
             try {
                 String[] detail = remainString.split(" /by ");
                 LocalDate deadLineDate = LocalDate.parse(detail[1].trim());
                 Deadlines newDeadLine = new Deadlines(detail[0], deadLineDate);
-                add(newDeadLine);
+                output.append(add(newDeadLine));
                 data.appendToFile("D", 0, detail[0], detail[1]);
             } catch (Exception e) {
-                throw new DukeException("      ☹ OOPS!!! Please enter in the format of : description, YYYY-MM-DD");
+                return new DukeException("☹ OOPS!!! Please enter in the format of : " +
+                        " description, YYYY-MM-DD\n").toString();
             }
         } else {
-            throw new DukeException("      ☹ OOPS!!! The description of a deadline is wrong");
+            throw new DukeException("☹ OOPS!!! The description of a deadline is wrong");
         }
-
+        return output.toString();
     }
 
 
@@ -90,9 +96,11 @@ public class TaskList {
      *
      * @param input the input
      * @param data  the data
+     * @return String to denote addEvent
      * @throws DukeException the duke exception
      */
-    public void addEvent(String input, Storage data) throws DukeException {
+    public String addEvent(String input, Storage data) throws DukeException {
+        StringBuilder output = new StringBuilder();
         String remainString = input.replace("event", "").trim();
         if (remainString.length() >= 1) {
             try {
@@ -100,47 +108,54 @@ public class TaskList {
                 String[] splitDateTime = detail[1].trim().split(" ");
                 LocalDate eventDate = LocalDate.parse(splitDateTime[0].trim());
                 Events newEvent = new Events(detail[0], eventDate, splitDateTime[1].trim());
-                add(newEvent);
-
+                output.append(add(newEvent));
                 data.appendToFile("E", 0, detail[0], splitDateTime[0] + "-" + splitDateTime[1]);
             } catch (Exception e) {
-                throw new DukeException("      ☹ OOPS!!! Please enter in the format of : "
-                        + "description, YYYY-MM-DD and hours");
+                return new DukeException("☹ OOPS!!! Please enter in the format of : "
+                        + "description, YYYY-MM-DD and hours\n").toString();
             }
         } else {
-            throw new DukeException("      ☹ OOPS!!! The description of an event is wrong.");
+            throw new DukeException("☹ OOPS!!! The description of an event is wrong.\n");
         }
+        return output.toString();
 
     }
 
 
     /**
      * List.
+     *
+     * @return a string which describe the all the task
      */
-    public void list() {
-        System.out.println("      Here are the tasks in your list:");
+    public String list() {
+        StringBuilder output = new StringBuilder();
+        output.append("Here are the tasks in your list:\n");
         int taskSize = this.taskList.size();
         for (int i = 0; i < taskSize; i++) {
             int count = i + 1;
-            System.out.println("      " + count + ". " + this.taskList.get(i).toString());
+            output.append(count + ". " + this.taskList.get(i).toString());
         }
+        return output.toString();
     }
 
     /**
-     * Adds the.
+     * Adds the add into taskList.
      *
      * @param newTask the new task
+     * @return String to denote the task is added and amount of task in the list
      */
-    public void add(Task newTask) {
-        System.out.println("      Got it. I've added this task: ");
+    public String add(Task newTask) {
+        StringBuilder output = new StringBuilder();
+        output.append("Got it. I've added this task: \n");
         this.taskList.add(newTask);
-        System.out.print("        " + newTask + "\n");
+        output.append(newTask.toString());
         int amtOfTask = this.taskList.size();
         if (amtOfTask <= 1) {
-            System.out.println("      Now you have " + amtOfTask + " task in list");
+            output.append("Now you have " + amtOfTask + " task in list\n");
         } else {
-            System.out.println("      Now you have " + amtOfTask + " tasks in list");
+            output.append("Now you have " + amtOfTask + " tasks in list\n");
         }
+        return output.toString();
     }
 
     /**
@@ -148,17 +163,20 @@ public class TaskList {
      *
      * @param number the number
      * @param data   the data
+     * @return String to denote that the task is mark as done
      * @throws DukeException the duke exception
      */
-    public void done(int number, Storage data) throws DukeException {
+    public String done(int number, Storage data) throws DukeException {
+        StringBuilder output = new StringBuilder();
         if (number <= this.taskList.size() && number >= 1) {
             Task getTask = this.taskList.get(number - 1);
             getTask.markAsDone();
-            System.out.println("      " + getTask);
+            output.append(getTask.toString());
         } else {
-            throw new DukeException("      ☹ OOPS!!! There is no such tasks");
+            throw new DukeException("☹ OOPS!!! There is no such tasks\n");
         }
         data.updateFile(this.taskList);
+        return output.toString();
     }
 
 
@@ -167,23 +185,26 @@ public class TaskList {
      *
      * @param number the number
      * @param data   the data
+     * @return String to state the task is deleted and how many left
      * @throws DukeException the duke exception
      */
-    public void delete(int number, Storage data) throws DukeException {
+    public String delete(int number, Storage data) throws DukeException {
+        StringBuilder output = new StringBuilder();
         if (number <= this.taskList.size() && number >= 1) {
             Task getTask = this.taskList.get(number - 1);
             this.taskList.remove(number - 1);
-            System.out.println("      Noted. I've removed this task:");
-            System.out.println("        " + getTask);
+            output.append("Noted. I've removed this task:\n");
+            output.append(getTask.toString());
             int amtOfTask = this.taskList.size();
             if (amtOfTask <= 1) {
-                System.out.println("      Now you have " + amtOfTask + " task in list");
+                output.append("Now you have " + amtOfTask + " task in list\n");
             } else {
-                System.out.println("      Now you have " + amtOfTask + " tasks in list");
+                output.append("Now you have " + amtOfTask + " tasks in list\n");
             }
         } else {
-            throw new DukeException("      ☹ OOPS!!! There is no such tasks");
+            return new DukeException("☹ OOPS!!! There is no such tasks\n").toString();
         }
         data.updateFile(this.taskList);
+        return output.toString();
     }
 }

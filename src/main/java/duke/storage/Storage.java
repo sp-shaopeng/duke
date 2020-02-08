@@ -1,5 +1,6 @@
 package duke.storage;
 
+import duke.exception.DukeException;
 import duke.task.Deadlines;
 import duke.task.Events;
 import duke.task.Task;
@@ -36,8 +37,9 @@ public class Storage {
      * Load.
      *
      * @return the array list
+     * @throws DukeException the duke exception
      */
-    public ArrayList<Task> loadData() {
+    public ArrayList<Task> loadData() throws DukeException {
         ArrayList<Task> tasksList = new ArrayList<>();
         try {
             File data = new File(this.filePath);
@@ -81,10 +83,8 @@ public class Storage {
                     break;
                 }
             }
-        } catch (java.io.FileNotFoundException e) {
-            System.out.println("FILE NOT FOUND");
         } catch (Exception e) {
-            System.out.println("File Corrupted " + e.getMessage());
+            throw new DukeException("Unable to load data\n");
         }
 
         return tasksList;
@@ -97,15 +97,16 @@ public class Storage {
      * @param taskNature      the task nature
      * @param isDone          the is done
      * @param taskDescription the task description
+     * @throws DukeException the duke exception
      */
-    public void appendToFile(String taskNature, int isDone, String taskDescription) {
+    public void appendToFile(String taskNature, int isDone, String taskDescription) throws DukeException {
         try {
             FileWriter fr = new FileWriter(this.filePath, true);
             String line = taskNature + "-" + isDone + "-" + taskDescription;
             fr.write(line + "\n");
             fr.close();
         } catch (java.io.IOException e) {
-            System.out.println("UNABLE TO SAVE DATA");
+            throw new DukeException("Unable to save data\n");
         }
     }
 
@@ -116,9 +117,10 @@ public class Storage {
      * @param isDone          the is done
      * @param taskDescription the task description
      * @param time            the time
+     * @throws DukeException the duke exception
      */
     //THIS METHOD IS FOR DEADLINE AND EVENTS
-    public void appendToFile(String taskNature, int isDone, String taskDescription, String time) {
+    public void appendToFile(String taskNature, int isDone, String taskDescription, String time) throws DukeException {
         try {
             //File data = new File(this.FILE_PATH);
             FileWriter fr = new FileWriter(this.filePath, true);
@@ -126,7 +128,7 @@ public class Storage {
             fr.write(line + "\n");
             fr.close();
         } catch (java.io.IOException e) {
-            System.out.println("UNABLE TO SAVE DATA");
+            throw new DukeException("Unable to save data\n");
         }
     }
 
@@ -134,8 +136,9 @@ public class Storage {
      * Update file.
      *
      * @param tasksList the tasksList
+     * @throws DukeException the duke exception
      */
-    public void updateFile(ArrayList<Task> tasksList) {
+    public void updateFile(ArrayList<Task> tasksList) throws DukeException {
 
         try {
             StringBuilder newData = new StringBuilder();
@@ -180,7 +183,7 @@ public class Storage {
             fileWriter.close();
 
         } catch (java.io.IOException e) {
-            System.out.println(("ERROR " + e.getMessage()));
+            throw new DukeException("Error" + e.getMessage() + "\n");
         }
     }
 

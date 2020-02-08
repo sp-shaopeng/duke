@@ -17,16 +17,20 @@ public class Ui {
 
     /**
      * Greet with the logo.
+     *
+     * @return a string to greet and show logo
      */
-    public void greetLogo() {
-        System.out.println("Hello from\n" + this.logo + "\n");
+    public String greetLogo() {
+        return "Hello from\n" + this.logo + "\n";
     }
 
     /**
      * Normal greeting.
+     *
+     * @return a string to greet
      */
-    public void greet() {
-        System.out.println("      Hello! I'm Duke\n" + "      What can I do for you?");
+    public String greet() {
+        return "Hello! I'm Duke\n" + "What can I do for you?\n";
     }
 
     /**
@@ -39,15 +43,19 @@ public class Ui {
 
     /**
      * Sign off before exiting the program.
+     *
+     * @return a string to greet bye
      */
-    public void bye() {
-        System.out.println("      Bye. Hope to see you again soon!");
+    public String bye() {
+        return "      Bye. Hope to see you again soon!";
     }
 
     /**
      * To notify that there is an error in the File.
+     *
+     * @return an string to denote the file is corrupted
      */
-    public void showLoadingError() {
-        System.out.println("File is corrupted, Start on a new file");
+    public String showLoadingError() {
+        return "File is corrupted, Start on a new file";
     }
 }

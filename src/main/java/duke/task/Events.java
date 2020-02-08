@@ -58,7 +58,7 @@ public class Events extends Task {
     public String toString() {
         return "[E]" + super.toString() + " (at: "
                 + eventDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
-                + " " + this.duration + ")";
+                + " " + this.duration + ")\n";
 
     }
 }
