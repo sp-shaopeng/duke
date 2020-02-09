@@ -1,5 +1,6 @@
 package duke.storage;
 
+import duke.Undo;
 import duke.exception.DukeException;
 import duke.task.Deadlines;
 import duke.task.Events;
@@ -24,6 +25,8 @@ public class Storage {
      */
     private String filePath;
 
+    private Undo versionControl;
+
     /**
      * Instantiates a new storage.
      *
@@ -31,6 +34,57 @@ public class Storage {
      */
     public Storage(String filePath) {
         this.filePath = filePath;
+    }
+
+
+    public void setVersionControl(Undo versionControl) {
+        this.versionControl = versionControl;
+    }
+
+    public ArrayList<Task> loadData(String version) throws DukeException {
+        ArrayList<Task> tasksList = new ArrayList<>();
+        String[] allList = version.split("\n");
+        for (int k = 0; k < allList.length; k++) {
+            String line = allList[k];
+            String[] content = line.split("-");
+            String taskNature = content[0];
+            int isDone = Integer.parseInt(content[1]);
+            if (taskNature.equals("T")) {
+                ToDos todo = new ToDos(content[2]);
+                if (isDone == 1) {
+                    todo.markAsDone();
+                }
+                tasksList.add(todo);
+            } else if (taskNature.equals("D")) {
+                String date = content[3] + "-" + content[4] + "-" + content[5];
+                LocalDate deadlineDate = LocalDate.parse(date.trim());
+                Deadlines deadline = new Deadlines(content[2], deadlineDate);
+                if (isDone == 1) {
+                    deadline.markAsDone();
+                }
+                tasksList.add(deadline);
+            } else if (taskNature.equals("E")) {
+                String date = content[3] + "-" + content[4] + "-" + content[5];
+                LocalDate eventDate = LocalDate.parse(date.trim());
+                StringBuilder duration = new StringBuilder();
+                for (int i = 6; i < content.length; i++) {
+                    if (i == content.length - 1) {
+                        duration.append(content[i]);
+                    } else {
+                        duration.append(content[i] + "-");
+                    }
+                }
+                Events event = new Events(content[2], eventDate, duration.toString());
+                if (isDone == 1) {
+                    event.markAsDone();
+                }
+                tasksList.add(event);
+            } else {
+                break;
+            }
+        }
+        updateFile(version);
+        return tasksList;
     }
 
     /**
@@ -41,11 +95,13 @@ public class Storage {
      */
     public ArrayList<Task> loadData() throws DukeException {
         ArrayList<Task> tasksList = new ArrayList<>();
+        StringBuilder vc = new StringBuilder();
         try {
             File data = new File(this.filePath);
             Scanner sc = new Scanner(data);
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
+                vc.append(line + "\n");
                 String[] content = line.split("-");
                 String taskNature = content[0];
                 int isDone = Integer.parseInt(content[1]);
@@ -86,7 +142,7 @@ public class Storage {
         } catch (Exception e) {
             throw new DukeException("Unable to load data\n");
         }
-
+        this.versionControl.addVersion(vc.toString());
         return tasksList;
     }
 
@@ -102,8 +158,11 @@ public class Storage {
     public void appendToFile(String taskNature, int isDone, String taskDescription) throws DukeException {
         try {
             FileWriter fr = new FileWriter(this.filePath, true);
-            String line = taskNature + "-" + isDone + "-" + taskDescription;
-            fr.write(line + "\n");
+            String line = taskNature + "-" + isDone + "-" + taskDescription + "\n";
+            String prevVersion = this.versionControl.getPrevVersion();
+            String newVersion = prevVersion + line;
+            this.versionControl.addVersion(newVersion);
+            fr.write(line);
             fr.close();
         } catch (java.io.IOException e) {
             throw new DukeException("Unable to save data\n");
@@ -124,11 +183,25 @@ public class Storage {
         try {
             //File data = new File(this.FILE_PATH);
             FileWriter fr = new FileWriter(this.filePath, true);
-            String line = taskNature + "-" + isDone + "-" + taskDescription + "-" + time;
-            fr.write(line + "\n");
+            String line = taskNature + "-" + isDone + "-" + taskDescription + "-" + time + "\n";
+            String prevVersion = this.versionControl.getPrevVersion();
+            String newVersion = prevVersion + line;
+            this.versionControl.addVersion(newVersion);
+            fr.write(line);
             fr.close();
         } catch (java.io.IOException e) {
             throw new DukeException("Unable to save data\n");
+        }
+    }
+
+
+    public void updateFile(String data) throws DukeException {
+        try {
+            Writer fileWriter = new FileWriter(this.filePath, false);
+            fileWriter.write(data.toString());
+            fileWriter.close();
+        } catch (java.io.IOException e) {
+            throw new DukeException("Error" + e.getMessage() + "\n");
         }
     }
 
@@ -179,6 +252,7 @@ public class Storage {
                 }
 
             }
+            this.versionControl.addVersion(newData.toString());
             fileWriter.write(newData.toString());
             fileWriter.close();
 
