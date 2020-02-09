@@ -14,7 +14,8 @@ public class TaskList {
     /**
      * The taskList.
      */
-    protected ArrayList<Task> taskList;
+    private ArrayList<Task> taskList;
+
 
     /**
      * Instantiates a new task list.
@@ -39,6 +40,15 @@ public class TaskList {
      */
     public ArrayList<Task> getTaskList() {
         return this.taskList;
+    }
+
+    /**
+     * this method is to replace the taskList
+     *
+     * @param newList replace the taskList
+     */
+    public void setTaskList(ArrayList<Task> newList) {
+        this.taskList = newList;
     }
 
     /**
@@ -92,7 +102,6 @@ public class TaskList {
         return output.toString();
     }
 
-
     /**
      * Adds the event.
      *
@@ -123,7 +132,6 @@ public class TaskList {
         return output.toString();
 
     }
-
 
     /**
      * List.
@@ -182,7 +190,6 @@ public class TaskList {
         return output.toString();
     }
 
-
     /**
      * Delete.
      *
@@ -210,4 +217,6 @@ public class TaskList {
         data.updateFile(this.taskList);
         return output.toString();
     }
+
+
 }

@@ -28,6 +28,11 @@ public class Duke {
     private TaskList taskList;
 
     /**
+     * The different previous version.
+     */
+    private Undo versionControl;
+
+    /**
      * The ui.
      */
     private Ui ui;
@@ -39,11 +44,14 @@ public class Duke {
         ui = new Ui();
         this.filePath = "../duke/data/duke.txt";
         this.storage = new Storage(filePath);
+        this.versionControl = new Undo();
+        this.storage.setVersionControl(versionControl);
         try {
             taskList = new TaskList(storage.loadData());
         } catch (Exception e) {
             ui.showLoadingError();
             taskList = new TaskList();
+
         }
     }
 
@@ -57,11 +65,18 @@ public class Duke {
         assert input.length() > 0 : "Invalid command";
         try {
             input = input.toLowerCase();
-            if (input.equalsIgnoreCase("bye")) {
+            if (input.trim().equalsIgnoreCase("bye")) {
                 return this.ui.bye();
-            } else if (input.equalsIgnoreCase("list")) {
+            } else if (input.trim().equalsIgnoreCase("undo")) {
+                if (versionControl.getSize() >= 2) {
+                    versionControl.undo(this.taskList, this.storage);
+                    return this.taskList.list();
+                } else {
+                    return new DukeException("OOPS, this is the latest version\n").toString();
+                }
+            } else if (input.trim().equalsIgnoreCase("list")) {
                 return this.taskList.list();
-            } else if (input.startsWith("done")) {
+            } else if (input.trim().startsWith("done")) {
                 try {
                     int taskNumber = Integer.parseInt(input.substring(5));
                     return this.taskList.done(taskNumber, this.storage);
@@ -70,7 +85,7 @@ public class Duke {
                 } catch (NumberFormatException e) {
                     return new DukeException("OOPS!!! Done format is wrong\n").toString();
                 }
-            } else if (input.startsWith("delete")) {
+            } else if (input.trim().startsWith("delete")) {
                 try {
                     assert Character.isDigit(input.substring(7).toCharArray()[0]) : "Wrong Input";
                     int taskNumber = Integer.parseInt(input.substring(7));
@@ -81,7 +96,7 @@ public class Duke {
                 } catch (NumberFormatException e) {
                     return new DukeException("OOPS!!! Delete format is wrong").toString();
                 }
-            } else if (input.startsWith("find")) {
+            } else if (input.trim().startsWith("find")) {
                 String[] keyWords = input.substring(5).trim().split(" ");
                 assert keyWords.length <= 0 : "Invalid input keywords";
                 FindTask findTask = new FindTask(this.taskList.getTaskList());

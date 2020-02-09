@@ -38,6 +38,7 @@ public class MainWindow extends AnchorPane {
 
     /**
      * Bind a container with greet message.
+     *
      * @param d duke.
      */
     public void setDuke(Duke d) {
