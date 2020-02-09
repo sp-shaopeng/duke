@@ -43,7 +43,7 @@ public class TaskList {
     }
 
     /**
-     * this method is to replace the taskList
+     * this method is to replace the taskList.
      *
      * @param newList replace the taskList
      */

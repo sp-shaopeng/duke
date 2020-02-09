@@ -41,6 +41,14 @@ public class Storage {
         this.versionControl = versionControl;
     }
 
+    /**
+     * This method loads the data to duke base on the version.
+     *
+     * @param version s string which contains all data of previous versions
+     * @return an arrayList which stores all the tasks
+     * @throws DukeException the duke exception
+     */
+
     public ArrayList<Task> loadData(String version) throws DukeException {
         ArrayList<Task> tasksList = new ArrayList<>();
         String[] allList = version.split("\n");
@@ -194,6 +202,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Update the file with a String data.
+     *
+     * @param data a string which contains all the data
+     * @throws DukeException the duke exception
+     */
 
     public void updateFile(String data) throws DukeException {
         try {

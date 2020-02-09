@@ -16,7 +16,13 @@ public class Undo {
         allVersionTask = new ArrayList<>();
     }
 
-
+    /**
+     * Undo the step.
+     *
+     * @param taskList the tasklist which will be reverted
+     * @param data     the data which will reset the database
+     * @throws DukeException the duke exception
+     */
     public void undo(TaskList taskList, Storage data) throws DukeException {
         int total = this.allVersionTask.size();
         System.out.println(total);
