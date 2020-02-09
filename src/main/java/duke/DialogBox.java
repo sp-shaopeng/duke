@@ -37,7 +37,6 @@ public class DialogBox extends HBox {
         }
 
         dialog.setText(text);
-//        dialog.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         dialog.setWrapText(true);
         dialog.setTextAlignment(TextAlignment.JUSTIFY);
         displayPicture.setImage(img);

@@ -83,8 +83,8 @@ public class TaskList {
                 output.append(add(newDeadLine));
                 data.appendToFile("D", 0, detail[0], detail[1]);
             } catch (Exception e) {
-                return new DukeException("☹ OOPS!!! Please enter in the format of : " +
-                        " description, YYYY-MM-DD\n").toString();
+                return new DukeException("☹ OOPS!!! Please enter in the format of : "
+                        + " description, YYYY-MM-DD\n").toString();
             }
         } else {
             throw new DukeException("☹ OOPS!!! The description of a deadline is wrong");

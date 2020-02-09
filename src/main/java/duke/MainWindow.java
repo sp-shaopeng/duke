@@ -36,7 +36,10 @@ public class MainWindow extends AnchorPane {
         scrollPane.setFitToWidth(true);
     }
 
-
+    /**
+     * Bind a container with greet message.
+     * @param d duke.
+     */
     public void setDuke(Duke d) {
         duke = d;
         dialogContainer.getChildren().addAll(
