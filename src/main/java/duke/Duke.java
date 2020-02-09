@@ -53,6 +53,7 @@ public class Duke {
      * @return string which is the response to the command
      */
     public String processCommand(String input) {
+        assert input.length() > 0 : "Invalid command";
         try {
             input = input.toLowerCase();
             if (input.equalsIgnoreCase("bye")) {
@@ -70,7 +71,9 @@ public class Duke {
                 }
             } else if (input.startsWith("delete")) {
                 try {
+                    assert Character.isDigit( input.substring(7).toCharArray()[0] ) : "Wrong Input";
                     int taskNumber = Integer.parseInt(input.substring(7));
+                    assert taskNumber >= 0 : "Invalid task number";
                     return this.taskList.delete(taskNumber, this.storage);
                 } catch (StringIndexOutOfBoundsException e) {
                     return new DukeException("OOPS!!! Delete format is wrong").toString();
@@ -79,6 +82,7 @@ public class Duke {
                 }
             } else if (input.startsWith("find")) {
                 String[] keyWords = input.substring(5).trim().split(" ");
+                assert keyWords.length <= 0 : "Invalid input keywords";
                 FindTask findTask = new FindTask(this.taskList.getTaskList());
                 findTask.search(keyWords);
                 return findTask.list();
