@@ -52,6 +52,7 @@ public class TaskList {
     public String addTodo(String input, Storage data) throws DukeException {
         StringBuilder output = new StringBuilder();
         String remainString = input.replace("todo", "").trim();
+        assert remainString.length() <= 0 : "Invalid addTodo input";
         if (remainString.length() >= 1) {
             ToDos newToDo = new ToDos(remainString);
             output.append(add(newToDo));
@@ -73,6 +74,7 @@ public class TaskList {
     public String addDeadline(String input, Storage data) throws DukeException {
         StringBuilder output = new StringBuilder();
         String remainString = input.replace("deadline", "").trim();
+        assert remainString.length() <= 0 : "Invalid addDeadline input";
         if (remainString.length() >= 1) {
             try {
                 String[] detail = remainString.split(" /by ");
@@ -102,6 +104,7 @@ public class TaskList {
     public String addEvent(String input, Storage data) throws DukeException {
         StringBuilder output = new StringBuilder();
         String remainString = input.replace("event", "").trim();
+        assert remainString.length() <= 0 : "Invalid addEvent input";
         if (remainString.length() >= 1) {
             try {
                 String[] detail = remainString.split(" /at ");

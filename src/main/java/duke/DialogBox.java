@@ -41,6 +41,7 @@ public class DialogBox extends HBox {
         dialog.setWrapText(true);
         dialog.setTextAlignment(TextAlignment.JUSTIFY);
         displayPicture.setImage(img);
+
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
