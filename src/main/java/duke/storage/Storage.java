@@ -212,7 +212,7 @@ public class Storage {
     public void updateFile(String data) throws DukeException {
         try {
             Writer fileWriter = new FileWriter(this.filePath, false);
-            fileWriter.write(data.toString());
+            fileWriter.write(data);
             fileWriter.close();
         } catch (java.io.IOException e) {
             throw new DukeException("Error" + e.getMessage() + "\n");
