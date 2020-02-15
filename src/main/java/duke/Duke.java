@@ -51,7 +51,6 @@ public class Duke {
         } catch (Exception e) {
             ui.showLoadingError();
             taskList = new TaskList();
-            versionControl.startFresh();
 
         }
     }
@@ -63,20 +62,19 @@ public class Duke {
      * @return string which is the response to the command
      */
     public String processCommand(String input) {
-        input = input.trim();
         assert input.length() > 0 : "Invalid command";
         try {
             input = input.toLowerCase();
-            if (input.equalsIgnoreCase("bye")) {
+            if (input.trim().equalsIgnoreCase("bye")) {
                 return this.ui.bye();
-            } else if (input.equalsIgnoreCase("undo")) {
+            } else if (input.trim().equalsIgnoreCase("undo")) {
                 if (versionControl.getSize() >= 2) {
                     versionControl.undo(this.taskList, this.storage);
                     return this.taskList.list();
                 } else {
                     return new DukeException("OOPS, this is the latest version\n").toString();
                 }
-            } else if (input.equalsIgnoreCase("list")) {
+            } else if (input.trim().equalsIgnoreCase("list")) {
                 return this.taskList.list();
             } else if (input.trim().startsWith("done")) {
                 try {
@@ -87,7 +85,7 @@ public class Duke {
                 } catch (NumberFormatException e) {
                     return new DukeException("OOPS!!! Done format is wrong\n").toString();
                 }
-            } else if (input.startsWith("delete")) {
+            } else if (input.trim().startsWith("delete")) {
                 try {
                     assert Character.isDigit(input.substring(7).toCharArray()[0]) : "Wrong Input";
                     int taskNumber = Integer.parseInt(input.substring(7));
@@ -98,7 +96,7 @@ public class Duke {
                 } catch (NumberFormatException e) {
                     return new DukeException("OOPS!!! Delete format is wrong").toString();
                 }
-            } else if (input.startsWith("find")) {
+            } else if (input.trim().startsWith("find")) {
                 String[] keyWords = input.substring(5).trim().split(" ");
                 assert keyWords.length <= 0 : "Invalid input keywords";
                 FindTask findTask = new FindTask(this.taskList.getTaskList());

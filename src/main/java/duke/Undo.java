@@ -32,13 +32,6 @@ public class Undo {
         taskList.setTaskList(prevTaskList);
     }
 
-    /**
-     * This method is use to set the first version control.
-     */
-    public void startFresh() {
-        allVersionTask.add("");
-    }
-
 
     public void addVersion(String latestVersion) {
         allVersionTask.add(latestVersion);
