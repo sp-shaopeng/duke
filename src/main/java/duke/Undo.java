@@ -33,7 +33,7 @@ public class Undo {
     }
 
     /**
-     * This method is use to set the first version control
+     * This method is use to set the first version control.
      */
     public void startFresh() {
         allVersionTask.add("");
