@@ -115,7 +115,7 @@ public class Duke {
                         return this.taskList.addEvent(input, this.storage);
                     }
                 } else {
-                    throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n");
+                    throw new DukeException("OOPS!!! I'm sorry, but I don't know what that means :-(\n");
                 }
             }
         } catch (DukeException e) {

@@ -46,7 +46,7 @@ todo gym
 #### Expected outcome:
 ```
 Got it. I've added this task:
-[T][]gym <br/>
+[T][]gym 
 Now you have 1 tasks in the list.
 ```
 ### `event` - To add a `event` task in the task list <br/>
@@ -149,7 +149,7 @@ undo
 
 #### Expected outcome:
 ```
-Last operation delete 2 -> deletes the `deadline` task
+Last operation delete 2 -> deletes the deadline task
 ``` 
 Before | After Undo 
  ------ | ------ 

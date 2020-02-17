@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
+import javafx.scene.paint.Color;
 import java.io.IOException;
 
 
@@ -23,9 +23,12 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
-            stage.setScene(scene);
+            scene.setFill(Color.BLACK);
+            stage.setTitle("DUKE");
+
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/DaIcon.png")));
             fxmlLoader.<MainWindow>getController().setDuke(duke);
+            stage.setScene(scene);
             stage.show();
 
 
