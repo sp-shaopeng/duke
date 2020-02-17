@@ -276,8 +276,12 @@ public class Storage {
         }
     }
 
+
+    /**
+     * This method is use to create a new file if there is no file.
+     */
     public void createFile() {
-        try{
+        try {
             File createdFile = new File(filePath);
             createdFile.getParentFile().mkdirs();
             createdFile.createNewFile();

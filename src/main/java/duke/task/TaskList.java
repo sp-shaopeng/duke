@@ -181,12 +181,17 @@ public class TaskList {
         StringBuilder output = new StringBuilder();
         if (number <= this.taskList.size() && number >= 1) {
             Task getTask = this.taskList.get(number - 1);
-            getTask.markAsDone();
-            output.append(getTask.toString());
+            if(getTask.isDone){
+                output.append("Error, task is already done\n");
+            }else {
+                getTask.markAsDone();
+                output.append("Nice!. I've marked this task as done:\n");
+                output.append(getTask.toString());
+                data.updateFile(this.taskList);
+            }
         } else {
             throw new DukeException("☹ OOPS!!! There is no such tasks\n");
         }
-        data.updateFile(this.taskList);
         return output.toString();
     }
 
