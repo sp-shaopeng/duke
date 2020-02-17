@@ -17,130 +17,130 @@ Description of feature.
 ### `Keyword` - Describe action
 Describe action and its outcome.
 
-####Add task <br/>
+#### Add task <br/>
 you can create 3 different types of tasks - `event`, `todo` and `deadline`.
 
-####Delete task <br/>
+#### Delete task <br/>
 Delete a task from the task list.
 
-####Find task <br/>
+#### Find task <br/>
 Find task(s) in the task list.
 
-####List task <br/>
+#### List task <br/>
 List out all task in the task list.
 
-####Mark as 'Done' <br/>
+#### Mark as 'Done' <br/>
 Mark the task in the task list to be 'Done' to show that it has been completed.
 
-####Undo <br/>
+#### Undo <br/>
 Revert the operation.
 
-####Bye <br/>
+#### Bye <br/>
 Exit the application.
 
 
 
 `keyword (optional arguments)`
-####`todo` - To add a `todo` task in the task list <br/>
+#### `todo` - To add a `todo` task in the task list <br/>
 Create a todo task that will be added to the task list with the format `todo <task description>`
 
  
-#####Example of usage:
+##### Example of usage:
 >todo gym
 
-#####Expected outcome:
+##### Expected outcome:
 
 >Got it. I've added this task: <br/>
 >[T][]gym <br/>
 >Now you have 1 tasks in the list. <br/>
 
-####`event` - To add a `event` task in the task list <br/>
+#### `event` - To add a `event` task in the task list <br/>
 Create a event task that will be added to the task list with the format `event <task description> /at <Date format in YYYY-MM-DD> <time> `
 
  
-#####Example of usage:
+##### Example of usage:
 >event edmond's birthday /at 2020-09-17 7pm
 
-#####Expected outcome:
+##### Expected outcome:
 
 >Got it. I've added this task: <br/>
 >[E][]edmond's birthday (at: Sep 17 2020 7pm) <br/>
 >Now you have 1 tasks in the list. <br/>
 
-####`deadline` - To add a `deadline` task in the task list <br/>
+#### `deadline` - To add a `deadline` task in the task list <br/>
 Create a deadline task that will be added to the task list with the format `deadline <task description> /by <Date format in YYYY-MM-DD>`
 
  
-#####Example of usage:
+##### Example of usage:
 >deadline math homework /by 2019-08-02
 
-#####Expected outcome:
+##### Expected outcome:
 
 >Got it. I've added this task: <br/>
 >[D][] math homework (by:Aug 2 2019)
 >Now you have 1 tasks in the list. <br/>
 
-####`delete` - To delete a task in the task list
+#### `delete` - To delete a task in the task list
 Deletes a task in the task list with corresponding index number with the format in 'delete <task number>'
 
-Example of usage:
+##### Example of usage:
 >delete 1
 
-Expected outcome:
+##### Expected outcome:
 >Noted. I've removed this task:
 >[T][]gym 
 >Now you have 2 tasks in the list.
 
-####`find` - To find task(s) in the task list
+#### `find` - To find task(s) in the task list
 Find task(s) in the task list using a keyword with the format in 'find <task description>'
 
-Example of usage:
+##### Example of usage:
 >find birthday
 
-Expected outcome:
+##### Expected outcome:
 >Here are the tasks in your list:<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.[E][]birthday (at:12th of December 2019 12:30pm tomorrow)
 
-####`list` - To list all task(s) in the task list
+#### `list` - To list all task(s) in the task list
 Display all the task(s) in the task list with the format in `list`
 
 
-Example of usage:
+##### Example of usage:
 >list
 
-Expected outcome:
+##### Expected outcome:
 >Here are the tasks in your list:
 >1.[E][] edmond's birthday (at: Sep 17 2020 7pm)
 >2.[D][] math homework (by:Aug 2 2019)
 
-####`done` - Mark a task as 'Done'
+#### `done` - Mark a task as 'Done'
 Marks a task in the task list as 'Done' with corresponding index number with the format in 'done <task number>'
 
-Example of usage:
+##### Example of usage:
 >done 2
 
-Expected outcome:
+##### Expected outcome:
 >Nice!. I've marked this task as done:
 >[D][tick] math homework (by: Aug 2 2019)
 
-####`Undo` - Revert the operations
+#### `Undo` - Revert the operations#
 Revert back to the previous status. Able to `undo` all the way to the time when the application is just launched
 
-Example of usage:
+##### Example of usage:
 >undo
 
-Expected outcome:
+##### Expected outcome:
 >Last operation delete 2 -> deletes the `deadline` task <br/>
 Before | After Undo <br/>
 ------ | ------ <br/>
 Here are the tasks in your list | Here are the tasks in your list
 1.[E][] edmond's birthday (at: Sep 17 2020 7pm) | 1.[E][] edmond's birthday (at: Sep 17 2020 7pm) <br/> 2.[D][tick] math homework (by:Aug 2 2019)
 
-####`bye` - Exit the application
+#### `bye` - Exit the application
 Terminates the application. The application will exit after 3 seconds.
 
-Example of usage:
+##### Example of usage:
 >bye
 
-Expected outcome:
+##### Expected outcome:
 >Bye! Hope to see you again soon!

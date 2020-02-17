@@ -181,9 +181,9 @@ public class TaskList {
         StringBuilder output = new StringBuilder();
         if (number <= this.taskList.size() && number >= 1) {
             Task getTask = this.taskList.get(number - 1);
-            if(getTask.isDone){
+            if (getTask.isDone) {
                 output.append("Error, task is already done\n");
-            }else {
+            } else {
                 getTask.markAsDone();
                 output.append("Nice!. I've marked this task as done:\n");
                 output.append(getTask.toString());
