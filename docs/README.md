@@ -1,10 +1,6 @@
 # User Guide
 
 ## Features 
-
-### Feature 1 
-Description of feature.
-
 1. Add task
 2. Delete task
 3. Find task
@@ -14,6 +10,7 @@ Description of feature.
 7. Bye
 
 
+## Feature description
 
 ### Add task 
 you can create 3 different types of tasks - `event`, `todo` and `deadline`.
@@ -38,7 +35,6 @@ Exit the application.
 
 ## Usage
 
-`keyword (optional arguments)`
 ### `todo` - To add a `todo` task in the task list <br/>
 Create a todo task that will be added to the task list with the format `todo <task description>`
 
@@ -143,7 +139,7 @@ Nice!. I've marked this task as done:
 [D][tick] math homework (by: Aug 2 2019)
 ```
 
-### `Undo` - Revert the operations#
+### `Undo` - Revert the operations
 Revert back to the previous status. Able to `undo` all the way to the time when the application is just launched
 
 #### Example of usage:
@@ -153,7 +149,7 @@ undo
 
 #### Expected outcome:
 ```
-Last operation delete 2 -> deletes the `deadline` task <br/>
+Last operation delete 2 -> deletes the `deadline` task
 ``` 
 Before | After Undo 
  ------ | ------ 
