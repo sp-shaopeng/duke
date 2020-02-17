@@ -42,7 +42,7 @@ public class Duke {
      */
     public Duke() {
         ui = new Ui();
-        this.filePath = "../duke/data/duke.txt";
+        this.filePath = "data/duke.txt";
         this.storage = new Storage(filePath);
         this.versionControl = new Undo();
         this.storage.setVersionControl(versionControl);
@@ -51,6 +51,7 @@ public class Duke {
         } catch (Exception e) {
             ui.showLoadingError();
             taskList = new TaskList();
+            storage.createFile();
             versionControl.startFresh();
 
         }

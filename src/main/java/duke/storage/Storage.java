@@ -9,6 +9,7 @@ import duke.task.ToDos;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -275,5 +276,14 @@ public class Storage {
         }
     }
 
+    public void createFile() {
+        try{
+            File createdFile = new File(filePath);
+            createdFile.getParentFile().mkdirs();
+            createdFile.createNewFile();
+        } catch (IOException e) {
+            System.out.println("File does not exist");
+        }
 
+    }
 }
