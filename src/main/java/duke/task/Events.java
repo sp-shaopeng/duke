@@ -1,6 +1,7 @@
 package duke.task;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -8,10 +9,16 @@ import java.time.format.DateTimeFormatter;
  */
 public class Events extends Task {
 
+
     /**
-     * The duration: when the event held in hours e.g 3-6pm.
+     * The time when the event start.
      */
-    protected String duration;
+    protected LocalTime eventStart;
+
+    /**
+     * The time when the event end.
+     */
+    protected LocalTime eventEnd;
 
     /**
      * The Event date: the date the event held.
@@ -23,11 +30,13 @@ public class Events extends Task {
      *
      * @param description the description
      * @param eventDate   the event date
-     * @param duration    the duration
+     * @param eventStart  the starting time for the event
+     * @param eventEnd    the end time for the event
      */
-    public Events(String description, LocalDate eventDate, String duration) {
+    public Events(String description, LocalDate eventDate, LocalTime eventStart, LocalTime eventEnd) {
         super(description);
-        this.duration = duration;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
         this.eventDate = eventDate;
     }
 
@@ -40,14 +49,25 @@ public class Events extends Task {
         return this.eventDate;
     }
 
+
     /**
-     * Gets the duration.
+     * Gets the eventStart.
      *
-     * @return the duration e.g(2-9pm)
+     * @return the eventStart timing e.g(2pm)
      */
-    public String getDuration() {
-        return this.duration;
+    public LocalTime getEventStart() {
+        return this.eventStart;
     }
+
+    /**
+     * Gets the eventEnd.
+     *
+     * @return the eventEnd timing e.g(2pm)
+     */
+    public LocalTime getEventEnd() {
+        return this.eventEnd;
+    }
+
 
     /**
      * To string.
@@ -56,9 +76,16 @@ public class Events extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (at: "
-                + eventDate.format(DateTimeFormatter.ofPattern("MMM d yyyy"))
-                + " " + this.duration + ")\n";
-
+        if (eventStart.compareTo(eventEnd) != -1) {
+            return "[E]" + super.toString() + " (at: "
+                    + eventDate.format(DateTimeFormatter.ofPattern("MMM d yyyy "))
+                    + this.eventStart.format(DateTimeFormatter.ofPattern(" h.mm a")) + "  to "
+                    + this.eventEnd.format(DateTimeFormatter.ofPattern(" h.mm a")) + "(next day) )\n";
+        } else {
+            return "[E]" + super.toString() + " (at: "
+                    + eventDate.format(DateTimeFormatter.ofPattern("MMM d yyyy "))
+                    + this.eventStart.format(DateTimeFormatter.ofPattern(" h.mm a")) + "  to "
+                    + this.eventEnd.format(DateTimeFormatter.ofPattern(" h.mm a")) + ")\n";
+        }
     }
 }
