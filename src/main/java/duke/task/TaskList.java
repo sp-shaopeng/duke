@@ -4,6 +4,7 @@ import duke.exception.DukeException;
 import duke.storage.Storage;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -66,7 +67,7 @@ public class TaskList {
         if (remainString.length() >= 1) {
             ToDos newToDo = new ToDos(remainString);
             output.append(add(newToDo));
-            data.appendToFile("T", 0, remainString);
+            data.appendTodoToFile("T", 0, remainString);
         } else {
             return new DukeException("☹ OOPS!!! The description of a todo cannot be empty.\n").toString();
         }
@@ -88,16 +89,18 @@ public class TaskList {
         if (remainString.length() >= 1) {
             try {
                 String[] detail = remainString.split(" /by ");
-                LocalDate deadLineDate = LocalDate.parse(detail[1].trim());
-                Deadlines newDeadLine = new Deadlines(detail[0], deadLineDate);
+                String[] dateTime = detail[1].trim().split(" ");
+                LocalDate deadLineDate = LocalDate.parse(dateTime[0].trim());
+                LocalTime deadLineTime = LocalTime.parse(dateTime[1].trim());
+                Deadlines newDeadLine = new Deadlines(detail[0], deadLineDate, deadLineTime);
                 output.append(add(newDeadLine));
-                data.appendToFile("D", 0, detail[0], detail[1]);
+                data.appendDeadlineToFile("D", 0, detail[0], dateTime[0], dateTime[1]);
             } catch (Exception e) {
-                return new DukeException("☹ OOPS!!! Please enter in the format of : "
-                        + " description, YYYY-MM-DD\n").toString();
+                return new DukeException("OOPS!!! Please enter in the format of : "
+                        + " task description, YYYY-MM-DD and HH:MM \n").toString();
             }
         } else {
-            throw new DukeException("☹ OOPS!!! The description of a deadline is wrong");
+            throw new DukeException("OOPS!!! The description of a deadline is wrong");
         }
         return output.toString();
     }
@@ -117,17 +120,22 @@ public class TaskList {
         if (remainString.length() >= 1) {
             try {
                 String[] detail = remainString.split(" /at ");
+                for (int l = 0; l < detail.length; l++) {
+                    System.out.println(detail[l]);
+                }
                 String[] splitDateTime = detail[1].trim().split(" ");
                 LocalDate eventDate = LocalDate.parse(splitDateTime[0].trim());
-                Events newEvent = new Events(detail[0], eventDate, splitDateTime[1].trim());
+                LocalTime eventStartTime = LocalTime.parse(splitDateTime[1].trim());
+                LocalTime eventEndTime = LocalTime.parse(splitDateTime[2].trim());
+                Events newEvent = new Events(detail[0], eventDate, eventStartTime, eventEndTime);
                 output.append(add(newEvent));
-                data.appendToFile("E", 0, detail[0], splitDateTime[0] + "-" + splitDateTime[1]);
+                data.appendEventToFile("E", 0, detail[0], splitDateTime[0], splitDateTime[1], splitDateTime[2]);
             } catch (Exception e) {
-                return new DukeException("☹ OOPS!!! Please enter in the format of : "
-                        + "description, YYYY-MM-DD and hours\n").toString();
+                return new DukeException("OOPS!!! Please enter in the format of : "
+                        + "description, YYYY-MM-DD HH:MM (starting time) HH:MM (ending time)\n").toString();
             }
         } else {
-            throw new DukeException("☹ OOPS!!! The description of an event is wrong.\n");
+            throw new DukeException("OOPS!!! The description of an event is wrong.\n");
         }
         return output.toString();
 
@@ -190,7 +198,7 @@ public class TaskList {
                 data.updateFile(this.taskList);
             }
         } else {
-            throw new DukeException("☹ OOPS!!! There is no such tasks\n");
+            throw new DukeException("OOPS!!! There is no such tasks\n");
         }
         return output.toString();
     }
@@ -217,7 +225,7 @@ public class TaskList {
                 output.append("Now you have " + amtOfTask + " tasks in list\n");
             }
         } else {
-            return new DukeException("☹ OOPS!!! There is no such tasks\n").toString();
+            return new DukeException("OOPS!!! There is no such tasks\n").toString();
         }
         data.updateFile(this.taskList);
         return output.toString();

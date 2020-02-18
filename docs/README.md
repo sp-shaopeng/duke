@@ -1,4 +1,5 @@
 # User Guide
+Duke is a task management tool which helps you to keep track of various task. It is a command line interface (CLI) which allows you to input your tasks by entering commands.
 
 ## Features 
 1. Add task
@@ -55,12 +56,12 @@ Create a event task that will be added to the task list with the format `event <
  
 #### Example of usage:
 ```
-event edmond's birthday /at 2020-09-17 7pm
+event edmond's birthday /at 2020-09-17 14:00 18:00
 ```
 #### Expected outcome:
 ```
 Got it. I've added this task:
-[E][]edmond's birthday (at: Sep 17 2020 7pm)
+[E][X]edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM)
 Now you have 1 tasks in the list.
 ```
 
@@ -70,13 +71,13 @@ Create a deadline task that will be added to the task list with the format `dead
  
 #### Example of usage:
 ```
-deadline math homework /by 2019-08-02
+deadline math homework /by 2019-08-02 19:00
 ```
 
 #### Expected outcome:
 ```
 Got it. I've added this task: 
-[D][] math homework (by:Aug 2 2019)
+[D][] math homework (by:Aug 2 2019 7 PM)
 Now you have 1 tasks in the list.
 ```
 

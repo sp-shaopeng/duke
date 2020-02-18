@@ -4,6 +4,7 @@ import duke.task.Events;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,18 +21,15 @@ public class EventTest {
     @Test
     public void testEventDateFormat() {
         LocalDate eventDate = LocalDate.parse("2019-02-11");
-        Events task = new Events("Return Book", eventDate, "3-6pm");
-        assertEquals("Feb 11 2019", task.getEventDate().format(DateTimeFormatter.ofPattern("MMM d yyyy")));
+        LocalTime eventStart = LocalTime.parse("12:00");
+        LocalTime eventEnd = LocalTime.parse("18:00");
+        StringBuilder s = new StringBuilder();
+        Events task = new Events("Return Book", eventDate, eventStart, eventEnd);
+        s.append(task.getEventDate().format(DateTimeFormatter.ofPattern("MMM d yyyy")) + " ");
+        s.append(task.getEventStart().format(DateTimeFormatter.ofPattern(" h.mm a")) + "  to ");
+        s.append(task.getEventEnd().format(DateTimeFormatter.ofPattern(" h.mm a")));
+        assertEquals("Feb 11 2019", s.toString());
     }
 
-    /**
-     * Test event duration format.
-     */
-    @Test
-    public void testEventDurationFormat() {
-        LocalDate eventDate = LocalDate.parse("2019-02-11");
-        Events task = new Events("Return Book", eventDate, "3-6pm");
-        assertEquals("3-6pm", task.getDuration());
-    }
 
 }

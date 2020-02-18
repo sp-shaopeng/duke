@@ -13,7 +13,7 @@ public class TimedExit {
     };
 
     public TimedExit() {
-        timer.schedule(exitApp, new Date(System.currentTimeMillis() + 3 * 1000));
+        timer.schedule(exitApp, new Date(System.currentTimeMillis() + 2 * 1000));
     }
 
 }

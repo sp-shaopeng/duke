@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -67,7 +68,8 @@ public class Storage {
             } else if (taskNature.equals("D")) {
                 String date = content[3] + "-" + content[4] + "-" + content[5];
                 LocalDate deadlineDate = LocalDate.parse(date.trim());
-                Deadlines deadline = new Deadlines(content[2], deadlineDate);
+                LocalTime deadlineTime = LocalTime.parse(content[6]);
+                Deadlines deadline = new Deadlines(content[2], deadlineDate, deadlineTime);
                 if (isDone == 1) {
                     deadline.markAsDone();
                 }
@@ -75,15 +77,9 @@ public class Storage {
             } else if (taskNature.equals("E")) {
                 String date = content[3] + "-" + content[4] + "-" + content[5];
                 LocalDate eventDate = LocalDate.parse(date.trim());
-                StringBuilder duration = new StringBuilder();
-                for (int i = 6; i < content.length; i++) {
-                    if (i == content.length - 1) {
-                        duration.append(content[i]);
-                    } else {
-                        duration.append(content[i] + "-");
-                    }
-                }
-                Events event = new Events(content[2], eventDate, duration.toString());
+                LocalTime eventStart = LocalTime.parse(content[6]);
+                LocalTime eventEnd = LocalTime.parse(content[7]);
+                Events event = new Events(content[2], eventDate, eventStart, eventEnd);
                 if (isDone == 1) {
                     event.markAsDone();
                 }
@@ -123,7 +119,8 @@ public class Storage {
                 } else if (taskNature.equals("D")) {
                     String date = content[3] + "-" + content[4] + "-" + content[5];
                     LocalDate deadlineDate = LocalDate.parse(date.trim());
-                    Deadlines deadline = new Deadlines(content[2], deadlineDate);
+                    LocalTime deadlineTime = LocalTime.parse(content[6]);
+                    Deadlines deadline = new Deadlines(content[2], deadlineDate, deadlineTime);
                     if (isDone == 1) {
                         deadline.markAsDone();
                     }
@@ -131,15 +128,9 @@ public class Storage {
                 } else if (taskNature.equals("E")) {
                     String date = content[3] + "-" + content[4] + "-" + content[5];
                     LocalDate eventDate = LocalDate.parse(date.trim());
-                    StringBuilder duration = new StringBuilder();
-                    for (int i = 6; i < content.length; i++) {
-                        if (i == content.length - 1) {
-                            duration.append(content[i]);
-                        } else {
-                            duration.append(content[i] + "-");
-                        }
-                    }
-                    Events event = new Events(content[2], eventDate, duration.toString());
+                    LocalTime eventStart = LocalTime.parse(content[6]);
+                    LocalTime eventEnd = LocalTime.parse(content[7]);
+                    Events event = new Events(content[2], eventDate, eventStart, eventEnd);
                     if (isDone == 1) {
                         event.markAsDone();
                     }
@@ -157,14 +148,14 @@ public class Storage {
 
 
     /**
-     * Append to file.
+     * Append to file for todo task.
      *
      * @param taskNature      the task nature
      * @param isDone          the is done
      * @param taskDescription the task description
      * @throws DukeException the duke exception
      */
-    public void appendToFile(String taskNature, int isDone, String taskDescription) throws DukeException {
+    public void appendTodoToFile(String taskNature, int isDone, String taskDescription) throws DukeException {
         try {
             FileWriter fr = new FileWriter(this.filePath, true);
             String line = taskNature + "-" + isDone + "-" + taskDescription + "\n";
@@ -179,7 +170,7 @@ public class Storage {
     }
 
     /**
-     * Append to file.
+     * Append to file for deadline tasks.
      *
      * @param taskNature      the task nature
      * @param isDone          the is done
@@ -187,12 +178,38 @@ public class Storage {
      * @param time            the time
      * @throws DukeException the duke exception
      */
-    //THIS METHOD IS FOR DEADLINE AND EVENTS
-    public void appendToFile(String taskNature, int isDone, String taskDescription, String time) throws DukeException {
+    public void appendDeadlineToFile(String taskNature, int isDone, String taskDescription,
+                                     String date, String time) throws DukeException {
         try {
-            //File data = new File(this.FILE_PATH);
             FileWriter fr = new FileWriter(this.filePath, true);
-            String line = taskNature + "-" + isDone + "-" + taskDescription + "-" + time + "\n";
+            String line = taskNature + "-" + isDone + "-" + taskDescription + "-" + date + "-" + time + "\n";
+            String prevVersion = this.versionControl.getPrevVersion();
+            String newVersion = prevVersion + line;
+            this.versionControl.addVersion(newVersion);
+            fr.write(line);
+            fr.close();
+        } catch (java.io.IOException e) {
+            throw new DukeException("Unable to save data\n");
+        }
+    }
+
+
+    /**
+     * Append to file for event tasks.
+     *
+     * @param taskNature      the task nature
+     * @param isDone          the is done
+     * @param taskDescription the task description
+     * @param startTime       the starting time of the event
+     * @param endTime         the ending time of the event
+     * @throws DukeException the duke exception
+     */
+    public void appendEventToFile(String taskNature, int isDone, String taskDescription,
+                                  String eventDate, String startTime, String endTime) throws DukeException {
+        try {
+            FileWriter fr = new FileWriter(this.filePath, true);
+            String line = taskNature + "-" + isDone + "-" + taskDescription
+                    + "-" + eventDate + "-" + startTime + "-" + endTime + "\n";
             String prevVersion = this.versionControl.getPrevVersion();
             String newVersion = prevVersion + line;
             this.versionControl.addVersion(newVersion);
@@ -246,10 +263,13 @@ public class Storage {
                     String line;
                     if (task.getStatus()) {
                         line = "D" + "-1-" + task.getDescription() + "-"
-                                + ((Deadlines) task).getDeadlineDate().toString();
+                                + ((Deadlines) task).getDeadlineDate().toString()
+                                + "-" + ((Deadlines) task).getDeadlineTime().toString();
                     } else {
                         line = "D" + "-0-" + task.getDescription() + "-"
-                                + ((Deadlines) task).getDeadlineDate().toString();
+                                + ((Deadlines) task).getDeadlineDate().toString()
+                                + "-" + ((Deadlines) task).getDeadlineTime().toString();
+                        ;
                     }
                     newData.append(line);
                     newData.append("\n");
@@ -257,10 +277,14 @@ public class Storage {
                     String line;
                     if (task.getStatus()) {
                         line = "E" + "-1-" + task.getDescription() + "-"
-                                + ((Events) task).getEventDate() + "-" + ((Events) task).getDuration();
+                                + ((Events) task).getEventDate() + "-"
+                                + ((Events) task).getEventStart().toString() + "-"
+                                + ((Events) task).getEventEnd().toString();
                     } else {
                         line = "E" + "-0-" + task.getDescription() + "-"
-                                + ((Events) task).getEventDate() + "-" + ((Events) task).getDuration();
+                                + ((Events) task).getEventDate() + "-"
+                                + ((Events) task).getEventStart().toString() + "-"
+                                + ((Events) task).getEventEnd().toString();
                     }
                     newData.append(line);
                     newData.append("\n");
