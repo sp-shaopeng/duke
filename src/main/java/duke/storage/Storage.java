@@ -55,7 +55,7 @@ public class Storage {
         ArrayList<Task> tasksList = new ArrayList<>();
         String[] allList = version.split("\n");
         for (int k = 0; k < allList.length; k++) {
-            String line = allList[k];
+            String line = allList[k].trim();
             String[] content = line.split("-");
             String taskNature = content[0];
             int isDone = Integer.parseInt(content[1]);
@@ -105,7 +105,10 @@ public class Storage {
             File data = new File(this.filePath);
             Scanner sc = new Scanner(data);
             while (sc.hasNextLine()) {
-                String line = sc.nextLine();
+                String line = sc.nextLine().trim();
+                if(line.length() == 0){
+                    break;
+                }
                 vc.append(line + "\n");
                 String[] content = line.split("-");
                 String taskNature = content[0];

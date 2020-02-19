@@ -1,6 +1,6 @@
 # User Guide
 Duke is a task management tool which helps you to keep track of various task. It is a command line interface (CLI) which allows you to input your tasks by entering commands.
-
+![User Interface Screenshot](Ui.png)
 ## Features 
 1. Add task
 2. Delete task
@@ -47,7 +47,7 @@ todo gym
 #### Expected outcome:
 ```
 Got it. I've added this task:
-[T][]gym 
+[T][X]gym 
 Now you have 1 tasks in the list.
 ```
 ### `event` - To add a `event` task in the task list <br/>
@@ -77,7 +77,7 @@ deadline math homework /by 2019-08-02 19:00
 #### Expected outcome:
 ```
 Got it. I've added this task: 
-[D][] math homework (by:Aug 2 2019 7 PM)
+[D][X] math homework (by:Aug 2 2019 7 PM)
 Now you have 1 tasks in the list.
 ```
 
@@ -92,7 +92,7 @@ delete 1
 #### Expected outcome:
 ```
 Noted. I've removed this task:
-[T][]gym 
+[T][X]gym 
 Now you have 2 tasks in the list.
 ```
 
@@ -107,7 +107,7 @@ find birthday
 #### Expected outcome:
 ```
 Here are the tasks in your list:
-    1.[E][]birthday (at:12th of December 2019 12:30pm tomorrow)
+    1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM)
 ```
 
 ### `list` - To list all task(s) in the task list
@@ -122,8 +122,8 @@ list
 #### Expected outcome:
 ```
 Here are the tasks in your list:
-1.[E][] edmond's birthday (at: Sep 17 2020 7pm)
-2.[D][] math homework (by:Aug 2 2019)
+1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM)
+2.[D][X] math homework (by:Aug 2 2019 7 PM)
 ```
 
 ### `done` - Mark a task as 'Done'
@@ -137,7 +137,7 @@ done 2
 #### Expected outcome:
 ```
 Nice!. I've marked this task as done:
-[D][tick] math homework (by: Aug 2 2019)
+[D][tick] math homework (by: Aug 2 2019 7 PM)
 ```
 
 ### `Undo` - Revert the operations
@@ -154,7 +154,7 @@ Last operation delete 2 -> deletes the deadline task
 ``` 
 Before | After Undo 
  ------ | ------ 
-Here are the tasks in your list <br/> 1.[E][] edmond's birthday (at: Sep 17 2020 7pm) | Here are the tasks in your list<br/> 1.[E][] edmond's birthday (at: Sep 17 2020 7pm) <br/> 2.[D][tick] math homework (by:Aug 2 2019) 
+Here are the tasks in your list <br/> 1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM) | Here are the tasks in your list<br/> 1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM) <br/> 2.[D][tick] math homework (by:Aug 2 2019 7 PM) 
 ### `bye` - Exit the application
 "Terminates the application. The application will exit after 3 seconds."
 
