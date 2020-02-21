@@ -70,6 +70,7 @@ public class MainWindow extends AnchorPane {
         userInput.clear();
 
         if (input.toLowerCase().startsWith("bye")) {
+            userInput.setEditable(false);
             new TimedExit();
         }
     }

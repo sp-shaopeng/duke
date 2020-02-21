@@ -106,7 +106,7 @@ public class Storage {
             Scanner sc = new Scanner(data);
             while (sc.hasNextLine()) {
                 String line = sc.nextLine().trim();
-                if(line.length() == 0){
+                if (line.length() == 0) {
                     break;
                 }
                 vc.append(line + "\n");

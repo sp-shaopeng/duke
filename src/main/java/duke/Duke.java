@@ -79,7 +79,7 @@ public class Duke {
                 }
             } else if (input.equalsIgnoreCase("list")) {
                 return this.taskList.list();
-            } else if (input.trim().startsWith("done")) {
+            } else if (input.trim().startsWith("done ")) {
                 try {
                     int taskNumber = Integer.parseInt(input.substring(5));
                     return this.taskList.done(taskNumber, this.storage);
@@ -88,7 +88,7 @@ public class Duke {
                 } catch (NumberFormatException e) {
                     return new DukeException("OOPS!!! Done format is wrong\n").toString();
                 }
-            } else if (input.startsWith("delete")) {
+            } else if (input.startsWith("delete ")) {
                 try {
                     assert Character.isDigit(input.substring(7).toCharArray()[0]) : "Wrong Input";
                     int taskNumber = Integer.parseInt(input.substring(7));
@@ -99,19 +99,19 @@ public class Duke {
                 } catch (NumberFormatException e) {
                     return new DukeException("OOPS!!! Delete format is wrong").toString();
                 }
-            } else if (input.startsWith("find")) {
+            } else if (input.startsWith("find ")) {
                 String[] keyWords = input.substring(5).trim().split(" ");
                 assert keyWords.length <= 0 : "Invalid input keywords";
                 FindTask findTask = new FindTask(this.taskList.getTaskList());
                 findTask.search(keyWords);
                 return findTask.list();
             } else {
-                if (input.startsWith("todo") || input.startsWith("deadline") || input.startsWith("event")) {
-                    if (input.startsWith("todo")) {
+                if (input.startsWith("todo ") || input.startsWith("deadline ") || input.startsWith("event ")) {
+                    if (input.startsWith("todo ")) {
                         return this.taskList.addTodo(input, this.storage);
-                    } else if (input.startsWith("deadline")) {
+                    } else if (input.startsWith("deadline ")) {
                         return this.taskList.addDeadline(input, this.storage);
-                    } else if (input.startsWith("event")) {
+                    } else if (input.startsWith("event ")) {
                         return this.taskList.addEvent(input, this.storage);
                     }
                 } else {
