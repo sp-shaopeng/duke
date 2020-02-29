@@ -25,13 +25,8 @@ public class DeadLineTest {
         StringBuilder s = new StringBuilder();
         s.append(task.getDeadlineDate().format(DateTimeFormatter.ofPattern("MMM d yyyy")));
         s.append(task.getDeadlineTime().format(DateTimeFormatter.ofPattern(" h.mm a")));
-        assertEquals("Feb 11 2019 5PM", s.toString());
+        assertEquals("Feb 11 2019 5.00 PM", s.toString());
     }
-    /*
-    @Test
-    public void Trying() {
-        assertEquals("a","b","lol\n");
-    }
-    */
+
 
 }

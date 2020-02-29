@@ -25,10 +25,11 @@ public class EventTest {
         LocalTime eventEnd = LocalTime.parse("18:00");
         StringBuilder s = new StringBuilder();
         Events task = new Events("Return Book", eventDate, eventStart, eventEnd);
-        s.append(task.getEventDate().format(DateTimeFormatter.ofPattern("MMM d yyyy")) + " ");
-        s.append(task.getEventStart().format(DateTimeFormatter.ofPattern(" h.mm a")) + "  to ");
+        s.append(task.getEventDate().format(DateTimeFormatter.ofPattern("MMM d yyyy")));
+        s.append(task.getEventStart().format(DateTimeFormatter.ofPattern(" h.mm a")));
+        s.append(" to");
         s.append(task.getEventEnd().format(DateTimeFormatter.ofPattern(" h.mm a")));
-        assertEquals("Feb 11 2019", s.toString());
+        assertEquals("Feb 11 2019 12.00 PM to 6.00 PM", s.toString());
     }
 
 
