@@ -152,9 +152,9 @@ undo
 ```
 Last operation delete 2 -> deletes the deadline task
 ``` 
-Before |After Undo
------- |------
-Here are the tasks in your list <br/> 1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM) |Here are the tasks in your list<br/> 1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM) <br/> 2.[D][tick] math homework (by:Aug 2 2019 7 PM)
+Before|After Undo
+------|------
+Here are the tasks in your list <br/> 1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM)|Here are the tasks in your list<br/> 1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM) <br/> 2.[D][tick] math homework (by:Aug 2 2019 7 PM)
 
 ### `bye` - Exit the application
 "Terminates the application. The application will exit after 3 seconds."
