@@ -151,14 +151,17 @@ undo
 #### Expected outcome:
 ```
 Last operation delete 2 -> deletes the deadline task
-``` 
-####Before
+
+Before Undo
     Here are the tasks in your list:
-      1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM)`
-####After Undo 
+      1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM)
+
+After Undo 
     Here are the tasks in your list:
-      1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM
+      1.[E][X] edmond's birthday (at: Sep 17 2020 2.00 PM to 6.00 PM)
       2.[D][tick] math homework (by:Aug 2 2019 7 PM)
+
+``` 
 
 ### `bye` - Exit the application
 "Terminates the application. The application will exit after 3 seconds."
